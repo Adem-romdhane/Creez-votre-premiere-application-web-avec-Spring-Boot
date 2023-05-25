@@ -6,10 +6,8 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface PersonneRepository extends CrudRepository<Personne, Long> {
+public interface PersonneRepository extends JpaRepository<Personne, Long> {
 
-    @Override
-    List<Personne> findAll();
 
 
 }
