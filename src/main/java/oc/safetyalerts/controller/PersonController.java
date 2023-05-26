@@ -15,7 +15,7 @@ public class PersonController {
     PersonRepository personRepository;
 
 
-    @PostMapping
+    @PostMapping("/save")
     public Person save(@RequestBody Person person){
         return personRepository.save(person);
     }

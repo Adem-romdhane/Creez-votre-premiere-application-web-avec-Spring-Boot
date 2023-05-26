@@ -22,8 +22,8 @@ public class PersonService {
         return persons;
     }
 
-    public List<Person> getPersonsByAdress(String adress){
-        return personRepository.findByAdress(adress);
+    public List<Person> getPersonsByAdress(String address){
+        return personRepository.findByAddress(address);
     }
 
     public Person addPerson(Person person){
