@@ -15,27 +15,15 @@ public class PersonController {
     PersonRepository personRepository;
 
 
-<<<<<<< HEAD
-    @PostMapping
-=======
     @PostMapping("/save")
->>>>>>> Person
-    public Person save(@RequestBody Person person){
+    public Person save(@RequestBody Person person) {
         return personRepository.save(person);
     }
 
-<<<<<<< HEAD
-    @GetMapping
-=======
     @GetMapping("/persons")
->>>>>>> Person
-    public List<Person> findAllPerson(){
+    public List<Person> findAllPerson() {
         return personRepository.findAll();
     }
 
-<<<<<<< HEAD
-=======
 
-
->>>>>>> Person
 }

@@ -17,11 +17,7 @@ public class PersonService {
         return personRepository.findAll();
     }
 
-<<<<<<< HEAD
-    public Person getById(Long id){
-       return personRepository.findById(id).orElse(null);
-    }
-=======
+
     public List<Person> getAlls(){
         List<Person> persons = personRepository.findAll();
         return persons;
@@ -42,5 +38,5 @@ public class PersonService {
     public void deletePerson(Person person){
          personRepository.delete(person);
     }
->>>>>>> Person
+
 }
