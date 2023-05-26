@@ -22,11 +22,19 @@ public class PersonService {
         return persons;
     }
 
+    public List<Person> getPersonsByAdress(String adress){
+        return personRepository.findByAdress(adress);
+    }
+
     public Person addPerson(Person person){
         return personRepository.save(person);
     }
 
     public Person getById(Long id){
        return personRepository.findById(id).orElse(null);
+    }
+
+    public void deletePerson(Person person){
+         personRepository.delete(person);
     }
 }
