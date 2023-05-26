@@ -14,22 +14,25 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @SpringBootTest
-
 class PersonControllerTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    private PersonService personService;
 
     @MockBean
     private PersonRepository personRepository;
-
 
 
     @Test
@@ -38,17 +41,15 @@ class PersonControllerTest {
     }
 
     @Test
-    public void newPerson() {
-        Person person = new Person(null,
-                "romdhane",
-                "adem",
-                "28 avenue de la république",
-                "fresnes",
-                "94260",
-                "12344",
-                "adem@gmail.com");
-        personRepository.save(person);
-
+    public void getPersonsTest() {
+        when(personRepository.findAll()).thenReturn(Stream.
+                of(new Person(null,
+                        "adem",
+                        "rmdhn",
+                        "fresnes",
+                        "paris",
+                        "65", "166363", "@gmail.com")).collect(Collectors.toList()));
+        assertEquals(1, personService.getAlls().size());
     }
 
 

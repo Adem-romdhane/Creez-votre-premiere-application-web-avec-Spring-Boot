@@ -17,7 +17,14 @@ public class PersonService {
         return personRepository.findAll();
     }
 
-    Person person = new Person();
+    public List<Person> getAlls(){
+        List<Person> persons = personRepository.findAll();
+        return persons;
+    }
+
+    public Person addPerson(Person person){
+        return personRepository.save(person);
+    }
 
     public Person getById(Long id){
        return personRepository.findById(id).orElse(null);
