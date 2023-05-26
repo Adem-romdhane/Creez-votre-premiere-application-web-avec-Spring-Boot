@@ -12,7 +12,7 @@ import lombok.ToString;
 @ToString // methode to string
 @Entity
 @Table(name = "Person")
-public class Personne {
+public class Person {
 
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
