@@ -20,9 +20,11 @@ public class PersonController {
         return personRepository.save(person);
     }
 
-    @GetMapping
+    @GetMapping("/persons")
     public List<Person> findAllPerson(){
         return personRepository.findAll();
     }
+
+
 
 }
