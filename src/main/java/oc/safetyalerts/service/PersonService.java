@@ -17,7 +17,30 @@ public class PersonService {
         return personRepository.findAll();
     }
 
+<<<<<<< HEAD
     public Person getById(Long id){
        return personRepository.findById(id).orElse(null);
     }
+=======
+    public List<Person> getAlls(){
+        List<Person> persons = personRepository.findAll();
+        return persons;
+    }
+
+    public List<Person> getPersonsByAdress(String address){
+        return personRepository.findByAddress(address);
+    }
+
+    public Person addPerson(Person person){
+        return personRepository.save(person);
+    }
+
+    public Person getById(Long id){
+       return personRepository.findById(id).orElse(null);
+    }
+
+    public void deletePerson(Person person){
+         personRepository.delete(person);
+    }
+>>>>>>> Person
 }
