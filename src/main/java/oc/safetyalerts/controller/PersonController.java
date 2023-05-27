@@ -25,5 +25,18 @@ public class PersonController {
         return personRepository.findAll();
     }
 
+    @PutMapping("update/{id}")
+    public String updatePerson(@PathVariable Long id, @RequestBody Person person){
+        Person updatePerson = personRepository.findById(id).get();
+        updatePerson.setFirstName(person.getFirstName());
+        updatePerson.setLastName(person.getLastName());
+        updatePerson.setAddress(person.getAddress());
+        updatePerson.setCity(person.getCity());
+        updatePerson.setZip(person.getZip());
+        updatePerson.setEmail(person.getEmail());
+        updatePerson.setPhone(person.getPhone());
+
+        return "Update....";
+    }
 
 }
