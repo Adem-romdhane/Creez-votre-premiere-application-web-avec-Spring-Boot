@@ -17,13 +17,14 @@ public class PersonService {
         return personRepository.findAll();
     }
 
+
     public List<Person> getAlls(){
         List<Person> persons = personRepository.findAll();
         return persons;
     }
 
-    public List<Person> getPersonsByAdress(String adress){
-        return personRepository.findByAdress(adress);
+    public List<Person> getPersonsByAdress(String address){
+        return personRepository.findByAddress(address);
     }
 
     public Person addPerson(Person person){
@@ -37,4 +38,5 @@ public class PersonService {
     public void deletePerson(Person person){
          personRepository.delete(person);
     }
+
 }
