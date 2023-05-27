@@ -39,4 +39,9 @@ public class PersonController {
         return "Update....";
     }
 
+    @DeleteMapping
+    public void deletePerson(@RequestBody Person person){
+        personRepository.delete(person);
+    }
+
 }
