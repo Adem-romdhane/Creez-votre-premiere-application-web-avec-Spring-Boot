@@ -17,10 +17,6 @@ public class PersonController {
     @Autowired
     PersonService personService;
 
-    @GetMapping(value = "/")
-    public String getPage() {
-        return "TEST";
-    }
 
     @PostMapping("/save")
     public Person save(@RequestBody Person person) {
