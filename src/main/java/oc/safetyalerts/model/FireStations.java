@@ -1,6 +1,7 @@
 package oc.safetyalerts.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +16,8 @@ import lombok.ToString;
 @Table(name = "FireStations")
 public class FireStations {
 
-    private String adress;
+    @Id
+    private Long id;
+    private String address;
     private int numberStation;
 }
