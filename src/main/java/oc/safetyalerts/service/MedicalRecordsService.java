@@ -16,4 +16,6 @@ public class MedicalRecordsService {
     public List<MedicalRecords> getAll(){return medicalRecordsRepository.findAll();}
 
 
+
+
 }

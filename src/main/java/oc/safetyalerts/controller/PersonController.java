@@ -4,6 +4,8 @@ import oc.safetyalerts.model.Person;
 import oc.safetyalerts.repository.PersonRepository;
 import oc.safetyalerts.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,9 +44,10 @@ public class PersonController {
         return "Updated...";
     }
 
-    @DeleteMapping("/delete")
-    public void delete(@RequestParam Person person) {
-        personService.deletePerson(person);
+    @DeleteMapping("/deletePersonById/{id}")
+    public ResponseEntity<HttpStatus> deletePersonById(@PathVariable Long id) {
+        personRepository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

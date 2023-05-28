@@ -10,13 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/firestations")
 public class FireStationsController {
 
     @Autowired
     FireStationsRepository fireStationsRepository;
 
-    @GetMapping("/firestations")
+    @GetMapping("/firestations/all")
     public List<FireStations> findAllFireStations() {
         return fireStationsRepository.findAll();
     }

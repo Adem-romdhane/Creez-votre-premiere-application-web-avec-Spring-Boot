@@ -17,7 +17,16 @@ public class FireStationsService {
         return fireStationsRepository.findAll();
     }
 
+    public FireStations savedFireStation(FireStations fireStations){
+      return fireStationsRepository.save(fireStations);
+    }
+
     public FireStations getById(Long id){
         return fireStationsRepository.findById(id).orElse(null);
     }
+
+    public void deleteFireStationsById(Long id){
+        fireStationsRepository.deleteById(id);
+    }
+
 }
