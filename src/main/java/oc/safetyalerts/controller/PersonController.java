@@ -20,9 +20,12 @@ public class PersonController {
     PersonService personService;
 
 
-    @PostMapping("/save")
-    public Person save(@RequestBody Person person) {
-        return personRepository.save(person);
+    @PostMapping("/addPerson")
+    public ResponseEntity<Person> addPerson (@RequestBody Person person)
+    {
+        Person person1= personRepository.save(person);
+
+        return new ResponseEntity<>(person1,HttpStatus.OK);
     }
 
     @GetMapping(value = "/persons/all")
@@ -30,7 +33,7 @@ public class PersonController {
         return personRepository.findAll();
     }
 
-    @PutMapping("update/{id}")
+    @PostMapping("/update/{id}")
     public String updatePerson(@PathVariable Long id, @RequestBody Person person) {
         Person updatePerson = personRepository.findById(id).get();
         updatePerson.setFirstName(person.getFirstName());
@@ -40,6 +43,8 @@ public class PersonController {
         updatePerson.setZip(person.getZip());
         updatePerson.setEmail(person.getEmail());
         updatePerson.setPhone(person.getPhone());
+
+        personRepository.save(updatePerson);
 
         return "Updated...";
     }
