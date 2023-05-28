@@ -23,9 +23,9 @@ public class PersonController {
     @PostMapping("/addPerson")
     public ResponseEntity<Person> addPerson (@RequestBody Person person)
     {
-        Person person1= personRepository.save(person);
+        Person savedPerson= personRepository.save(person);
 
-        return new ResponseEntity<>(person1,HttpStatus.OK);
+        return new ResponseEntity<>(savedPerson,HttpStatus.OK);
     }
 
     @GetMapping(value = "/persons/all")

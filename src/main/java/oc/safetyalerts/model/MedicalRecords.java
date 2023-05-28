@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor // constructeur sans argument
@@ -22,7 +23,7 @@ public class MedicalRecords {
     private Long id;
     private String firstName;
     private String LastName;
-    private Date birthdate;
-    private String medications;
-    private String allergies;
+    private String birthdate;
+    private List<String> medications;
+    private List<String> allergies;
 }
