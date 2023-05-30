@@ -39,4 +39,12 @@ public class PersonService {
          personRepository.delete(person);
     }
 
+    public static Person findPersonByAdress(List<Person> persons, String address) {
+        for (Person person : persons) {
+            if (person.getAddress().equals(address)) {
+                return person;
+            }
+        }
+        return null;
+    }
 }
