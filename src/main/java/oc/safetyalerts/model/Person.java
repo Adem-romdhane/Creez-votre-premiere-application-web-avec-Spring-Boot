@@ -8,7 +8,7 @@ import lombok.ToString;
 
 @Data
 @NoArgsConstructor // constructeur sans argument
-@AllArgsConstructor // constructeur avec argument
+@AllArgsConstructor // constructeur avec arguments
 @ToString // methode to string
 @Entity
 @Table(name = "Person")

@@ -19,6 +19,9 @@ public class PersonController {
     @Autowired
     PersonService personService;
 
+    public PersonController(PersonRepository personRepository) {
+    }
+
 
     @PostMapping("/addPerson")
     public ResponseEntity<Person> addPerson (@RequestBody Person person)

@@ -1,5 +1,6 @@
 package oc.safetyalerts;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import oc.safetyalerts.model.Person;
 import oc.safetyalerts.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,5 @@ public class SafetyAlertsApplication {
     }
 
 
-    Person person = new Person(null, "adem", "rmdhn", "avenue de la rép", "frenses", "94", "1244", "@yahoo.com");
 
 }
