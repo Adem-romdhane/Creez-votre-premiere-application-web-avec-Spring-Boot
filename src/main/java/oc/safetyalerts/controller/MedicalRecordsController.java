@@ -28,7 +28,7 @@ public class MedicalRecordsController {
     }
 
     //UPDATE METHOD IS OK
-    @PostMapping(value = "/updateMedicalRecordsById/{id}")
+    @PutMapping(value = "/updateMedicalRecordsById/{id}")
     public String updateMedicalRecords(@PathVariable Long id, @RequestBody MedicalRecords medicalRecords) {
         MedicalRecords updateMedicalRecords = medicalRecordsRepository.findById(id).get();
         updateMedicalRecords.setFirstName(medicalRecords.getFirstName());
