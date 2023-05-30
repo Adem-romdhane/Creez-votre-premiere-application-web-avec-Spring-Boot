@@ -53,7 +53,7 @@ public class PersonController {
 
     //Get Person By his address
     @GetMapping("/getPersonByAddress/{address}")
-    public List<Person> findPersonByAdress(@PathVariable String address){
+    public List<Person> findPersonByAddress(@PathVariable String address){
         return personRepository.findByAddress(address);
     }
 

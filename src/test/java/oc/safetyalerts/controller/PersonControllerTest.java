@@ -19,6 +19,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -27,6 +29,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -102,10 +105,24 @@ class PersonControllerTest {
                 andExpect(status().isOk());
     }
 
+    //Find a person with his address
     @Test
-    public void shouldSaveAPerson() throws Exception{
+    public void testFindPersonByAddress() throws Exception {
+        // Créer des données de test
+        Person person1 = new Person();
+        person1.setAddress("123 Main St");
+        Person person2 = new Person();
+        person2.setAddress("456 Elm St");
+        List<Person> expectedPersons = Arrays.asList(person1, person2);
 
+        // Définir le comportement du mock repository
+        when(personRepository.findByAddress(anyString())).thenReturn(expectedPersons);
+
+        // Effectuer la requête GET
+        mockMvc.perform(get("/getPersonByAddress/{address}", "123 Main St"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].address").value("123 Main St"))
+                .andExpect(jsonPath("$[1].address").value("456 Elm St"));
     }
-
 
 }
