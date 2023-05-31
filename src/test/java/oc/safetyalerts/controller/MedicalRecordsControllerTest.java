@@ -22,7 +22,7 @@ class MedicalRecordsControllerTest {
 
     @Test //Test cette méthode getAllMedicalRecords
     public void testGetMedicalRecords() throws Exception {
-        mockMvc.perform(get("/")).
+        mockMvc.perform(get("/findAllMedical")).
                 andExpect(status().isOk());
     }
 

@@ -19,16 +19,13 @@ public class PersonController {
     @Autowired
     PersonService personService;
 
-    public PersonController(PersonRepository personRepository) {
-    }
-
 
     @PostMapping("/addPerson")
     public ResponseEntity<Person> addPerson (@RequestBody Person person)
     {
-        Person savedPerson= personRepository.save(person);
+        Person person1= personRepository.save(person);
 
-        return new ResponseEntity<>(savedPerson,HttpStatus.OK);
+        return new ResponseEntity<>(person1,HttpStatus.OK);
     }
 
     @GetMapping(value = "/persons/all")

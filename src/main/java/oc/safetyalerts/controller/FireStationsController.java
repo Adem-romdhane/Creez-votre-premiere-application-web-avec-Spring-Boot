@@ -31,7 +31,7 @@ public class FireStationsController {
     @PostMapping(value = "/updateStation/{id}")
     public String updateFireStationsById(@PathVariable Long id,@RequestBody FireStations fireStations){
         FireStations updateFireStations = fireStationsRepository.findById(id).get();
-        updateFireStations.setNumberStation(fireStations.getNumberStation());
+        updateFireStations.setStation(fireStations.getStation());
         updateFireStations.setAddress(fireStations.getAddress());
 
         fireStationsRepository.save(updateFireStations);
