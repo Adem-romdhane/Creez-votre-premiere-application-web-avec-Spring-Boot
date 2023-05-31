@@ -1,9 +1,7 @@
 package oc.safetyalerts.controller;
 
-import oc.safetyalerts.model.FireStations;
 import oc.safetyalerts.model.MedicalRecords;
 import oc.safetyalerts.repository.MedicalRecordsRepository;
-import oc.safetyalerts.service.MedicalRecordsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,31 +14,38 @@ public class MedicalRecordsController {
     @Autowired
     MedicalRecordsRepository medicalRecordsRepository;
 
-    @GetMapping("/")
+    //find all is ok
+    @GetMapping("/findAllMedical")
     public List<MedicalRecords> getAllMedicalRecords() {
         return medicalRecordsRepository.findAll();
     }
 
-    @PostMapping
-    public void save(@RequestBody MedicalRecords medicalRecords) {
-        medicalRecordsRepository.save(medicalRecords);
+    // Add is OK
+    @PostMapping("/addNewMedicalRecords")
+    public MedicalRecords save(@RequestBody MedicalRecords medicalRecords) {
+
+      return  medicalRecordsRepository.save(medicalRecords);
     }
 
-    @PutMapping(value = "/updateMedical")
+    //UPDATE METHOD IS OK
+    @PutMapping(value = "/updateMedicalRecordsById/{id}")
     public String updateMedicalRecords(@PathVariable Long id, @RequestBody MedicalRecords medicalRecords) {
         MedicalRecords updateMedicalRecords = medicalRecordsRepository.findById(id).get();
-        updateMedicalRecords.setId(medicalRecords.getId());
         updateMedicalRecords.setFirstName(medicalRecords.getFirstName());
         updateMedicalRecords.setLastName(medicalRecords.getLastName());
         updateMedicalRecords.setMedications(medicalRecords.getMedications());
         updateMedicalRecords.setAllergies(medicalRecords.getAllergies());
         updateMedicalRecords.setBirthdate(medicalRecords.getBirthdate());
+
+        medicalRecordsRepository.save(updateMedicalRecords);
+
         return "Updated successfully";
     }
 
-    @DeleteMapping(value = "/deleteMedical")
-    public void deleteMedicalRecords(@RequestBody MedicalRecords medicalRecords) {
-        medicalRecordsRepository.delete(medicalRecords);
+    //delete medical records OK
+    @DeleteMapping(value = "/deleteMedicalRecordsById/{id}")
+    public void deleteMedicalRecords(@PathVariable Long id) {
+        medicalRecordsRepository.deleteById(id);
     }
 
 }

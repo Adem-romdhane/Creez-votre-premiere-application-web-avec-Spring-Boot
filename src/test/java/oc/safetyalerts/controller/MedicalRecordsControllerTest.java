@@ -20,10 +20,11 @@ class MedicalRecordsControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Test
+    @Test //Test cette méthode getAllMedicalRecords
     public void testGetMedicalRecords() throws Exception {
         mockMvc.perform(get("/findAllMedical")).
                 andExpect(status().isOk());
     }
+
 
 }
