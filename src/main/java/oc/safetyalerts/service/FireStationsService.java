@@ -31,4 +31,11 @@ public class FireStationsService {
         fireStationsRepository.deleteById(id);
     }
 
+    public FireStations updateFirestation(FireStations fireStations) {
+        FireStations updateFirestation = new FireStations();
+        updateFirestation.setAddress(fireStations.getAddress());
+        updateFirestation.setStation(fireStations.getStation());
+
+        return fireStationsRepository.save(updateFirestation);
+    }
 }
