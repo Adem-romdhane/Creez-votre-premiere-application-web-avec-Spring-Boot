@@ -12,20 +12,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PersonService {
 
-    @Autowired
     private final PersonRepository personRepository;
 
     public List<Person> getAll() {
         return personRepository.findAll();
     }
 
-
-    public List<Person> getAlls() {
-        List<Person> persons = personRepository.findAll();
-        return persons;
-    }
-
-    public List<Person> getPersonsByAdress(String address) {
+    public List<Person> getPersonsByAddress(String address) {
         return personRepository.findByAddress(address);
     }
 
@@ -41,12 +34,21 @@ public class PersonService {
         personRepository.delete(person);
     }
 
-    public static Person findPersonByAdress(List<Person> persons, String address) {
-        for (Person person : persons) {
-            if (person.getAddress().equals(address)) {
-                return person;
-            }
-        }
-        return null;
+    public Person getByFirstNameAndLastName(String firstName, String lastName) {
+        return personRepository.findByFirstNameAndLastName(firstName, lastName);
     }
+
+    public Person updatePerson(Person person) {
+        Person updatePerson = new Person();
+        updatePerson.setFirstName(person.getFirstName());
+        updatePerson.setLastName(person.getLastName());
+        updatePerson.setAddress(person.getAddress());
+        updatePerson.setCity(person.getCity());
+        updatePerson.setZip(person.getZip());
+        updatePerson.setEmail(person.getEmail());
+        updatePerson.setPhone(person.getPhone());
+
+        return personRepository.save(updatePerson);
+    }
+
 }
