@@ -15,18 +15,21 @@ public class FireStationsController {
     @Autowired
     FireStationsRepository fireStationsRepository;
 
-    @GetMapping("/firestations/all") // READ DATA
+    //READ ALL FIRE STATION LIST
+    @GetMapping("/firestations/all")
     public List<FireStations> findAllFireStations() {
         return fireStationsRepository.findAll();
     }
 
-    @PostMapping("/addFireStation") // add a new FireStation
-    public FireStations save (@RequestBody FireStations fireStations) {
+    //ADD A NEW FIRE STATION
+    @PostMapping("/addFireStation")
+    public FireStations saveNewFireStation (@RequestBody FireStations fireStations) {
         return fireStationsRepository.save(fireStations);
     }
 
-    @PostMapping("/updateStation/{id}") //update a FireStation
-    public String updateFireStations(@PathVariable Long id,@RequestBody FireStations fireStations){
+    //UPDATE DATA OF A FIRE STATION WITH THE ID
+    @PostMapping(value = "/updateStation/{id}")
+    public String updateFireStationsById(@PathVariable Long id,@RequestBody FireStations fireStations){
         FireStations updateFireStations = fireStationsRepository.findById(id).get();
         updateFireStations.setStation(fireStations.getStation());
         updateFireStations.setAddress(fireStations.getAddress());
@@ -36,9 +39,9 @@ public class FireStationsController {
         return "Updated successfully";
     }
 
-    // Delete fire stations by id
-    @DeleteMapping(value = "/deleteStationById/{id}")
-    public void deleteStation(@PathVariable Long id){
+    // DELETE A FIRE STATION OF OUR DATABASE
+    @DeleteMapping(value = "/deleteStation/{id}")
+    public void deleteStationById(@PathVariable Long id){
         fireStationsRepository.deleteById(id);
     }
 
