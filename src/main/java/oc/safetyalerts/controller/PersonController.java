@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class PersonController {
@@ -19,21 +21,49 @@ public class PersonController {
     @Autowired
     PersonService personService;
 
+    private List<Person> persons = new ArrayList<>(); // Liste de personnes (exemple)
+
 
     @PostMapping("/addPerson")
-    public ResponseEntity<Person> addPerson (@RequestBody Person person)
-    {
-        Person person1= personRepository.save(person);
+    public ResponseEntity<Person> addPerson(@RequestBody Person person) {
+        Person person1 = personRepository.save(person);
 
-        return new ResponseEntity<>(person1,HttpStatus.OK);
+        return new ResponseEntity<>(person1, HttpStatus.OK);
     }
+
+
+    // Endpoint GET pour rechercher une personne par son adresse
+    @GetMapping("/persons/address/{address}")
+    public Person getPersonByAddress(@PathVariable String address) {
+        return (Person) personRepository.findByAddress(address);
+    }
+
 
     @GetMapping(value = "/persons/all")
     public List<Person> findAllPerson() {
         return personRepository.findAll();
     }
 
-    @PostMapping("/update/{id}")
+    // Get a Person by his Id
+    @GetMapping("/getPersonById/{id}")
+    public Optional<Person> findPersonById(@PathVariable Long id) {
+        return personRepository.findById(id);
+    }
+
+    //Get Person By his address
+    @GetMapping("/getPersonByAddress/{address}")
+    public List<Person> findPersonByAddress(@PathVariable String address) {
+        return personRepository.findByAddress(address);
+    }
+
+    //Get Person By his firstname and lastname
+    @GetMapping("/getPersonByName")
+    public List<Person> findPersonByAddress(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
+        return personRepository.findByFirstNameAndLastName(firstName, lastName);
+    }
+
+
+    @PutMapping("/update/{id}")
     public String updatePerson(@PathVariable Long id, @RequestBody Person person) {
         Person updatePerson = personRepository.findById(id).get();
         updatePerson.setFirstName(person.getFirstName());
@@ -54,6 +84,4 @@ public class PersonController {
         personRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
 }
