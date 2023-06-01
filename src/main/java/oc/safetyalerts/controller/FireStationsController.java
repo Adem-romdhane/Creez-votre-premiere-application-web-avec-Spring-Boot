@@ -29,22 +29,26 @@ public class FireStationsController {
 
     }
 
-    @PutMapping("/id/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<FireStations> updateFireStations(@PathVariable Long id, @RequestBody FireStations fireStations){
         FireStations fireStationsFinded = fireStationsService.getById(id);
         if (fireStationsFinded == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        fireStationsFinded.setStation(fireStations.getStation());
+        fireStationsFinded.setAddress(fireStations.getAddress());
+        fireStationsService.savedFireStation(fireStationsFinded);
         return new ResponseEntity<>(fireStationsService.updateFirestation(fireStations), HttpStatus.OK);
 
     }
 
-    @DeleteMapping("/id/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteStationById(@PathVariable Long id){
         FireStations fireStationsFinded = fireStationsService.getById(id);
         if(fireStationsFinded == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        fireStationsService.deleteFireStationsById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
