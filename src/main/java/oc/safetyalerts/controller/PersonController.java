@@ -51,6 +51,7 @@ public class PersonController {
         if (personFinded == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        personService.updatePerson(personFinded);
         return new ResponseEntity<>(personService.updatePerson(person), HttpStatus.CREATED);
     }
 
@@ -60,6 +61,8 @@ public class PersonController {
         if (personFinded == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+        personService.deletePerson(personFinded);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
