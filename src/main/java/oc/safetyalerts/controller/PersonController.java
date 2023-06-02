@@ -41,7 +41,7 @@ public class PersonController {
     }
 
     @GetMapping("/getPersonByName")
-    public ResponseEntity<Person> findPersonByAddress(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
+    public ResponseEntity<Person> findPersonByFirstAndLastName(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
         return new ResponseEntity<>(personService.getByFirstNameAndLastName(firstName, lastName), HttpStatus.OK);
     }
 
