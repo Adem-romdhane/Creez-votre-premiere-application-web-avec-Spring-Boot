@@ -25,14 +25,14 @@ public class MedicalRecordsController {
     }
 
     @PostMapping
-    public ResponseEntity<MedicalRecords> addMedicalRecord (@RequestBody MedicalRecords medicalRecords) {
+    public ResponseEntity<MedicalRecords> addMedicalRecord(@RequestBody MedicalRecords medicalRecords) {
         return new ResponseEntity<>(medicalRecordsService.addMedicalRecord(medicalRecords), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<MedicalRecords> updateMedicalRecords(@PathVariable Long id, @RequestBody MedicalRecords medicalRecords) {
         MedicalRecords medicalRecordsFinded = medicalRecordsService.getById(id);
-        if (medicalRecordsFinded == null){
+        if (medicalRecordsFinded == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(medicalRecordsService.updateMedical(medicalRecords), HttpStatus.CREATED);
@@ -43,9 +43,10 @@ public class MedicalRecordsController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteMedicalRecords(@PathVariable Long id) {
         MedicalRecords medicalRecordsFinded = medicalRecordsService.getById(id);
-        if (medicalRecordsFinded == null){
+        if (medicalRecordsFinded == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        medicalRecordsService.deleteMedicalRecord(medicalRecordsFinded);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

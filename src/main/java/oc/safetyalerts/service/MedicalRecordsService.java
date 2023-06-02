@@ -39,4 +39,8 @@ public class MedicalRecordsService {
     public void DeleteById(MedicalRecords medicalRecords, Long id){
         medicalRecordsRepository.deleteById(id);
     }
+
+    public void deleteMedicalRecord(MedicalRecords medicalRecords) {
+        medicalRecordsRepository.delete(medicalRecords);
+    }
 }
