@@ -1,19 +1,21 @@
 package oc.safetyalerts.controller;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import oc.safetyalerts.model.Person;
 import oc.safetyalerts.repository.PersonRepository;
 import oc.safetyalerts.service.PersonService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -43,6 +45,12 @@ class PersonControllerTest {
     @InjectMocks
     private PersonController personController;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
+
+    @Captor
+    private ArgumentCaptor<Person> personCaptor;
 
     @Test
     void getAllPersonsTest() {
@@ -166,5 +174,38 @@ class PersonControllerTest {
         verify(personService, never()).deletePerson(any(Person.class));
     }
 
+    @Test
+    public void testAddPerson() throws Exception {
+        // Données du formulaire de personne à envoyer
+        String personJson = "{\"firstName\":\"John\",\"lastName\":\"Doe\",\"address\":\"123 Street\",\"city\":\"City\",\"zip\":\"12345\",\"phone\":\"1234567890\",\"email\":\"john.doe@example.com\"}";
 
+        // Création d'une instance de personne à renvoyer
+        Person savedPerson = new Person();
+        savedPerson.setId(1L);
+        savedPerson.setFirstName("John");
+        savedPerson.setLastName("Doe");
+        savedPerson.setAddress("123 Street");
+        savedPerson.setCity("City");
+        savedPerson.setZip("12345");
+        savedPerson.setPhone("1234567890");
+        savedPerson.setEmail("john.doe@example.com");
+
+        // Définition du comportement du service de personne simulé
+        when(personService.addPerson(Mockito.any(Person.class))).thenReturn(savedPerson);
+
+        // Exécution de la requête POST pour ajouter une personne
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/v1/api/person")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(personJson))
+                .andExpect(status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("John"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("Doe"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.address").value("123 Street"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.city").value("City"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.zip").value("12345"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.phone").value("1234567890"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("john.doe@example.com"));
+    }
 }

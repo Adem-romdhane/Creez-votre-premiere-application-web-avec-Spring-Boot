@@ -9,6 +9,8 @@ import java.util.List;
 public interface PersonRepository extends JpaRepository<Person, Long> {
 
     List<Person> findByAddress(String address);
+
     Person findByFirstNameAndLastName(String firstName, String lastName);
+
 
 }
