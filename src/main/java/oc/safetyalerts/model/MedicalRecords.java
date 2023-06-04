@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -26,4 +25,5 @@ public class MedicalRecords {
     private String birthdate;
     private List<String> medications;
     private List<String> allergies;
+
 }

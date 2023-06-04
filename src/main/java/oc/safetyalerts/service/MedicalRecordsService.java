@@ -2,8 +2,7 @@ package oc.safetyalerts.service;
 
 import lombok.RequiredArgsConstructor;
 import oc.safetyalerts.model.MedicalRecords;
-import oc.safetyalerts.repository.MedicalRecordsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import oc.safetyalerts.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,12 +11,36 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MedicalRecordsService {
 
-    @Autowired
-   private final MedicalRecordsRepository medicalRecordsRepository;
+
+    private final MedicalRecordsRepository medicalRecordsRepository;
 
     public List<MedicalRecords> getAll(){return medicalRecordsRepository.findAll();}
 
 
+    public MedicalRecords addMedicalRecord(MedicalRecords medicalRecords) {
+        return medicalRecordsRepository.save(medicalRecords);
+    }
 
+    public MedicalRecords getById(Long id) {
+        return medicalRecordsRepository.findById(id).orElse(null);
+    }
 
+    public MedicalRecords updateMedical(MedicalRecords medicalRecords) {
+        MedicalRecords updateMedical = new MedicalRecords();
+        updateMedical.setFirstName(medicalRecords.getFirstName());
+        updateMedical.setLastName(medicalRecords.getLastName());
+        updateMedical.setBirthdate(medicalRecords.getBirthdate());
+        updateMedical.setMedications(medicalRecords.getMedications());
+        updateMedical.setAllergies(medicalRecords.getAllergies());
+
+        return medicalRecordsRepository.save(updateMedical);
+    }
+
+    public void DeleteById(MedicalRecords medicalRecords, Long id){
+        medicalRecordsRepository.deleteById(id);
+    }
+
+    public void deleteMedicalRecord(MedicalRecords medicalRecords) {
+        medicalRecordsRepository.delete(medicalRecords);
+    }
 }

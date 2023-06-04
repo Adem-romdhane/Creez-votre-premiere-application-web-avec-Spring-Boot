@@ -15,8 +15,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FireStationsController {
 
-   private final FireStationsService fireStationsService;
-   private List<FireStations> fireStations = new ArrayList<>();
+    private final FireStationsService fireStationsService;
+    private List<FireStations> fireStations = new ArrayList<>();
 
     @GetMapping
     public ResponseEntity<List<FireStations>> findAllFireStations() {

@@ -1,51 +1,53 @@
 package oc.safetyalerts.controller;
 
+import lombok.RequiredArgsConstructor;
 import oc.safetyalerts.model.MedicalRecords;
-import oc.safetyalerts.repository.MedicalRecordsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import oc.safetyalerts.service.MedicalRecordsService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/v1/api/medicalrecord")
+@RequiredArgsConstructor
 public class MedicalRecordsController {
 
-    @Autowired
-    MedicalRecordsRepository medicalRecordsRepository;
 
-    //find all is ok
-    @GetMapping("/findAllMedical")
-    public List<MedicalRecords> getAllMedicalRecords() {
-        return medicalRecordsRepository.findAll();
+    private final MedicalRecordsService medicalRecordsService;
+    List<MedicalRecords> medicalRecords = new ArrayList<>();
+
+    @GetMapping
+    public ResponseEntity<List<MedicalRecords>> getAllMedicalRecords() {
+        return new ResponseEntity<>(medicalRecordsService.getAll(), HttpStatus.OK);
     }
 
-    // Add is OK
-    @PostMapping("/addNewMedicalRecords")
-    public MedicalRecords save(@RequestBody MedicalRecords medicalRecords) {
-
-      return  medicalRecordsRepository.save(medicalRecords);
+    @PostMapping
+    public ResponseEntity<MedicalRecords> addMedicalRecord(@RequestBody MedicalRecords medicalRecords) {
+        return new ResponseEntity<>(medicalRecordsService.addMedicalRecord(medicalRecords), HttpStatus.OK);
     }
 
-    //UPDATE METHOD IS OK
-    @PutMapping(value = "/updateMedicalRecordsById/{id}")
-    public String updateMedicalRecords(@PathVariable Long id, @RequestBody MedicalRecords medicalRecords) {
-        MedicalRecords updateMedicalRecords = medicalRecordsRepository.findById(id).get();
-        updateMedicalRecords.setFirstName(medicalRecords.getFirstName());
-        updateMedicalRecords.setLastName(medicalRecords.getLastName());
-        updateMedicalRecords.setMedications(medicalRecords.getMedications());
-        updateMedicalRecords.setAllergies(medicalRecords.getAllergies());
-        updateMedicalRecords.setBirthdate(medicalRecords.getBirthdate());
+    @PutMapping("/{id}")
+    public ResponseEntity<MedicalRecords> updateMedicalRecords(@PathVariable Long id, @RequestBody MedicalRecords medicalRecords) {
+        MedicalRecords medicalRecordsFinded = medicalRecordsService.getById(id);
+        if (medicalRecordsFinded == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(medicalRecordsService.updateMedical(medicalRecords), HttpStatus.CREATED);
 
-        medicalRecordsRepository.save(updateMedicalRecords);
-
-        return "Updated successfully";
     }
 
-    //delete medical records OK
-    @DeleteMapping(value = "/deleteMedicalRecordsById/{id}")
-    public void deleteMedicalRecords(@PathVariable Long id) {
-        medicalRecordsRepository.deleteById(id);
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteMedicalRecords(@PathVariable Long id) {
+        MedicalRecords medicalRecordsFinded = medicalRecordsService.getById(id);
+        if (medicalRecordsFinded == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        medicalRecordsService.deleteMedicalRecord(medicalRecordsFinded);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }
