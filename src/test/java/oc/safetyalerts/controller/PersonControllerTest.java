@@ -11,7 +11,9 @@ import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -144,7 +146,7 @@ class PersonControllerTest {
 
     @Test
     public void testGetPersonByAddress() throws Exception {
-        // Créez une liste factice de personnes
+        // List of persons
         List<Person> persons = new ArrayList<>();
         persons.add(new Person(1L, "John", "Doe", "123 Street", "City", "12345", "1234567890", "john@example.com"));
         persons.add(new Person(2L, "Jane", "Smith", "456 Avenue", "City", "67890", "9876543210", "jane@example.com"));
@@ -176,10 +178,10 @@ class PersonControllerTest {
 
     @Test
     public void testAddPerson() throws Exception {
-        // Données du formulaire de personne à envoyer
+        // Person to send form data
         String personJson = "{\"firstName\":\"John\",\"lastName\":\"Doe\",\"address\":\"123 Street\",\"city\":\"City\",\"zip\":\"12345\",\"phone\":\"1234567890\",\"email\":\"john.doe@example.com\"}";
 
-        // Création d'une instance de personne à renvoyer
+        // Create a person instance to send
         Person savedPerson = new Person();
         savedPerson.setId(1L);
         savedPerson.setFirstName("John");
@@ -190,10 +192,10 @@ class PersonControllerTest {
         savedPerson.setPhone("1234567890");
         savedPerson.setEmail("john.doe@example.com");
 
-        // Définition du comportement du service de personne simulé
+        // Definition of simulated human service behaviour
         when(personService.addPerson(Mockito.any(Person.class))).thenReturn(savedPerson);
 
-        // Exécution de la requête POST pour ajouter une personne
+        // Execute POST request to add a person
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/v1/api/person")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -207,5 +209,27 @@ class PersonControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.zip").value("12345"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.phone").value("1234567890"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("john.doe@example.com"));
+    }
+
+    /* test ces 2 lignes :
+      personService.deletePerson(personFinded);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+     */
+    @Test
+    public void testDeeltePerson() {
+        Long id = 1L;
+        Person personFinded = new Person();
+
+        when(personService.getById(id)).thenReturn(personFinded);
+
+        ResponseEntity<Void> response = personController.deletePersonById(id);
+
+        if (personFinded == null) {
+            assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+            verify(personService, never()).deletePerson(any(Person.class));
+        } else {
+            assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode()); // Vérifiez que le code de statut est "204 No Content"
+            verify(personService, times(1)).deletePerson(personFinded);
+        }
     }
 }
