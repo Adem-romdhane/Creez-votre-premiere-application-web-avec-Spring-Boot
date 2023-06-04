@@ -6,12 +6,15 @@ import oc.safetyalerts.repository.FireStationsRepository;
 import oc.safetyalerts.service.FireStationsService;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,6 +33,9 @@ class FireStationsControllerTest {
 
     @MockBean
     private FireStationsRepository fireStationsRepository;
+
+    @InjectMocks
+    private FireStationsController fireStationsController;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -100,5 +106,25 @@ class FireStationsControllerTest {
 
         verify(fireStationsService).savedFireStation(any(FireStations.class));
     }
+
+    @Test // test
+    void testDeleteStationById() {
+        // Arrange
+        Long id = 1L;
+        FireStations fireStations = new FireStations();
+        fireStations.setId(id);
+
+        when(fireStationsService.getById(id)).thenReturn(fireStations);
+
+        // Act
+        ResponseEntity<Void> response = fireStationsController.deleteStationById(id);
+
+        // Assert
+        verify(fireStationsService, times(1)).getById(id);
+        verify(fireStationsService, times(1)).deleteFireStationsById(id);
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+    }
+
+
 
 }

@@ -26,7 +26,6 @@ public class FireStationsController {
     @PostMapping
     public ResponseEntity<FireStations> save (@RequestBody FireStations fireStations) {
         return new ResponseEntity<>(fireStationsService.savedFireStation(fireStations), HttpStatus.CREATED);
-
     }
 
     @PutMapping("/{id}")
