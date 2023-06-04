@@ -1,9 +1,7 @@
 package oc.safetyalerts.controller;
 
 import oc.safetyalerts.model.FireStations;
-import oc.safetyalerts.model.Person;
 import oc.safetyalerts.repository.FireStationsRepository;
-import oc.safetyalerts.service.FireStationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +18,7 @@ public class FireStationsController {
         return fireStationsRepository.findAll();
     }
 
-    @PostMapping("/addFireStation") // add a new FireStation
+    @PostMapping// add a new FireStation
     public FireStations save (@RequestBody FireStations fireStations) {
         return fireStationsRepository.save(fireStations);
     }
