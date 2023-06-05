@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -89,5 +91,29 @@ class FireStationsControllerTest {
         assertEquals(fireStations, fireStationsService.savedFireStation(fireStations));
     }
 
+    @Test
+    void testDeleteStationById() {
+        // Définir l'ID fictif de la fire station à supprimer
+        Long fireStationId = 1L;
 
+        // Créer un objet FireStations fictif pour les tests
+        FireStations mockFireStations = new FireStations();
+        mockFireStations.setId(fireStationId);
+        mockFireStations.setAddress("Station 1");
+
+        // Configurer le comportement du service pour retourner l'objet FireStations fictif
+        when(fireStationsService.getById(fireStationId)).thenReturn(mockFireStations);
+
+        // Appeler la méthode deleteStationById du controller
+        ResponseEntity<Void> responseEntity = fireStationsController.deleteStationById(fireStationId);
+
+        // Vérifier que la méthode getById du service a été appelée avec le bon ID
+        verify(fireStationsService).getById(fireStationId);
+
+        // Vérifier que la méthode deleteFireStationsById du service a été appelée avec le bon ID
+        verify(fireStationsService).deleteFireStationsById(fireStationId);
+
+        // Vérifier que la réponse renvoie un code de statut HTTP NO_CONTENT (204)
+        assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+    }
 }
