@@ -46,7 +46,7 @@ public class MedicalRecordsController {
         if (medicalRecordsFinded == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        medicalRecordsService.deleteMedicalRecord(medicalRecordsFinded);
+        medicalRecordsService.DeleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

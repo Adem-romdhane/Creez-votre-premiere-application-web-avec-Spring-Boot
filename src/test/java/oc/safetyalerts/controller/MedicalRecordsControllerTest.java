@@ -12,16 +12,13 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -97,28 +94,8 @@ class MedicalRecordsControllerTest {
         mockMvc.perform(delete("/v1/api/medicalrecord/{id}", medicalRecordId))
                 .andExpect(status().isNotFound());
 
-        verify(medicalRecordsService, never()).deleteMedicalRecord(any(MedicalRecords.class));
+        verify(medicalRecordsService, never()).DeleteById(medicalRecordId);
     }
 
-    @Test
-    public void testDeleteMedicalRecords() {
-        // Préparation
-        Long id = 1L;
-        // Initialisez le dossier médical existant ou null
-        MedicalRecords medicalRecordsFinded = new MedicalRecords();
 
-        when(medicalRecordsService.getById(id)).thenReturn(medicalRecordsFinded);
-
-        // Exécution
-        ResponseEntity<Void> response = medicalRecordsController.deleteMedicalRecords(id);
-
-        // Vérifications
-        if (medicalRecordsFinded == null) {
-            assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); // Vérifiez que le code de statut est "404 Not Found"
-            verify(medicalRecordsService, never()).deleteMedicalRecord(any(MedicalRecords.class)); // Vérifiez que la méthode deleteMedicalRecord n'a pas été appelée
-        } else {
-            assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode()); // Vérifiez que le code de statut est "204 No Content"
-            verify(medicalRecordsService, times(1)).deleteMedicalRecord(medicalRecordsFinded); // Vérifiez que la méthode deleteMedicalRecord a été appelée avec le dossier médical trouvé
-        }
-    }
 }

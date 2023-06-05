@@ -18,4 +18,6 @@ public class FireStations {
     private Long id;
     private String address;
     private int station;
+
+
 }

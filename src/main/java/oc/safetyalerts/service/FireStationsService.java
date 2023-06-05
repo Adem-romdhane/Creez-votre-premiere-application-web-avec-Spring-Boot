@@ -31,9 +31,7 @@ public class FireStationsService {
         fireStationsRepository.deleteById(id);
     }
 
-    public void deleteFireStation(FireStations fireStations) {
-        fireStationsRepository.delete(fireStations);
-    }
+
     public FireStations updateFirestation(FireStations fireStations) {
         FireStations updateFirestation = new FireStations();
         updateFirestation.setAddress(fireStations.getAddress());

@@ -36,11 +36,8 @@ public class MedicalRecordsService {
         return medicalRecordsRepository.save(updateMedical);
     }
 
-    public void DeleteById(MedicalRecords medicalRecords, Long id){
+    public void DeleteById( Long id){
         medicalRecordsRepository.deleteById(id);
     }
 
-    public void deleteMedicalRecord(MedicalRecords medicalRecords) {
-        medicalRecordsRepository.delete(medicalRecords);
-    }
 }
