@@ -13,13 +13,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -115,5 +115,26 @@ class FireStationsControllerTest {
 
         // Vérifier que la réponse renvoie un code de statut HTTP NO_CONTENT (204)
         assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+    }
+
+    @Test
+    void testSaveFireStation() throws Exception {
+        // Créer un objet FireStations fictif pour les tests
+        FireStations mockFireStations = new FireStations();
+        mockFireStations.setId(1L);
+        mockFireStations.setAddress("Station 1");
+
+        // Configurer le comportement du service pour retourner l'objet FireStations fictif
+        when(fireStationsService.savedFireStation(mockFireStations)).thenReturn(mockFireStations);
+
+        // Convertir l'objet FireStations en JSON
+        ObjectMapper objectMapper = new ObjectMapper();
+        String fireStationsJson = objectMapper.writeValueAsString(mockFireStations);
+
+        // Effectuer la requête POST en envoyant l'objet FireStations JSON
+        mockMvc.perform(post("/v1/api/firestations")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(fireStationsJson))
+                .andExpect(status().isCreated());
     }
 }
