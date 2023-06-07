@@ -85,8 +85,10 @@ class FireStationsControllerTest {
 
     @Test
     void saveFireStationTest() {
-        FireStations fireStations = new FireStations(null,
-                "rue de verdun",3);
+        FireStations fireStations = new FireStations();
+        fireStations.setId(null);
+        fireStations.setStation(1);
+        fireStations.setAddress("rue due verdun");
         when(fireStationsService.savedFireStation(fireStations)).thenReturn(fireStations);
         assertEquals(fireStations, fireStationsService.savedFireStation(fireStations));
     }

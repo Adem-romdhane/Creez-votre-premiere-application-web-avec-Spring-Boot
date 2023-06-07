@@ -2,6 +2,7 @@ package oc.safetyalerts.controller;
 
 import lombok.RequiredArgsConstructor;
 import oc.safetyalerts.model.FireStations;
+import oc.safetyalerts.model.PersonDTO;
 import oc.safetyalerts.service.FireStationsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,5 +53,9 @@ public class FireStationsController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/firestation")
+    public List<PersonDTO> getFireStation(@RequestParam("stationNumber") int stationNumber) {
+        return fireStationsService.getFireStationInfo(stationNumber);
+    }
 
 }

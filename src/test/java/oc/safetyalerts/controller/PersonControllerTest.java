@@ -2,6 +2,7 @@ package oc.safetyalerts.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import oc.safetyalerts.model.FireStations;
 import oc.safetyalerts.model.Person;
 import oc.safetyalerts.repository.PersonRepository;
 import oc.safetyalerts.service.PersonService;
@@ -62,7 +63,7 @@ class PersonControllerTest {
                         "rmdhn",
                         "fresnes",
                         "paris",
-                        "65", "166363", "@gmail.com")).collect(Collectors.toList()));
+                        "65", "166363", "@gmail.com", new FireStations())).collect(Collectors.toList()));
         assertEquals(1, personService.getAll().size());
     }
 
@@ -76,7 +77,7 @@ class PersonControllerTest {
                         "rmdhn",
                         "fresnes",
                         "paris",
-                        "65", "166363", "@gmail.com")).collect(Collectors.toList()));
+                        "65", "166363", "@gmail.com", new FireStations())).collect(Collectors.toList()));
         assertEquals(1, personService.getPersonsByAddress(address).size());
 
     }
@@ -88,7 +89,7 @@ class PersonControllerTest {
                 "bbbb",
                 "antony",
                 "paris",
-                "89", "89065454", "aaa@yahoo.com"));
+                "89", "89065454", "aaa@yahoo.com", new FireStations()));
 
         when(personService.addPerson(person)).thenReturn(person);
         assertEquals(person, personService.addPerson(person));
@@ -101,7 +102,7 @@ class PersonControllerTest {
                 "bbbb",
                 "antony",
                 "paris",
-                "89", "89065454", "aaa@yahoo.com"));
+                "89", "89065454", "aaa@yahoo.com", new FireStations()));
         personService.deletePerson(person);
         // verify(personService, times(1)).deletePerson(person);
     }
@@ -148,8 +149,8 @@ class PersonControllerTest {
     public void testGetPersonByAddress() throws Exception {
         // List of persons
         List<Person> persons = new ArrayList<>();
-        persons.add(new Person(1L, "John", "Doe", "123 Street", "City", "12345", "1234567890", "john@example.com"));
-        persons.add(new Person(2L, "Jane", "Smith", "456 Avenue", "City", "67890", "9876543210", "jane@example.com"));
+        persons.add(new Person(1L, "John", "Doe", "123 Street", "City", "12345", "1234567890", "john@example.com", new FireStations()));
+        persons.add(new Person(2L, "Jane", "Smith", "456 Avenue", "City", "67890", "9876543210", "jane@example.com", new FireStations()));
 
         // Configurez le comportement du service pour retourner la liste factice de personnes
         when(personService.getPersonsByAddress("123 Street")).thenReturn(persons);

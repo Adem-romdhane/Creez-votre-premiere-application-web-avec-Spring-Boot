@@ -23,7 +23,14 @@ public class MedicalRecords {
     private String firstName;
     private String lastName;
     private String birthdate;
+
+    @ElementCollection
     private List<String> medications;
+
+    @ElementCollection
     private List<String> allergies;
+
+    @ManyToOne
+    private FireStations fireStations;
 
 }

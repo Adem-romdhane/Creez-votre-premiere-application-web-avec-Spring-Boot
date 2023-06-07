@@ -22,4 +22,14 @@ public class Person {
     private String phone;
     private String email;
 
+    @ManyToOne
+    private FireStations fireStation;
+
+    public FireStations getFireStation() {
+        return fireStation;
+    }
+
+    public void setFireStation(FireStations fireStation) {
+        this.fireStation = fireStation;
+    }
 }
