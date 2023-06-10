@@ -40,4 +40,7 @@ public class MedicalRecordsService {
         medicalRecordsRepository.deleteById(id);
     }
 
+    public MedicalRecords findByFirstNameAndLastName(String firstName, String lastName) {
+        return medicalRecordsRepository.findByFirstNameAndLastName(firstName,lastName);
+    }
 }

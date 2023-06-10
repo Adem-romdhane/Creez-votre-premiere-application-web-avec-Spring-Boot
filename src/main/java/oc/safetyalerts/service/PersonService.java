@@ -3,7 +3,6 @@ package oc.safetyalerts.service;
 import lombok.RequiredArgsConstructor;
 import oc.safetyalerts.model.Person;
 import oc.safetyalerts.repository.PersonRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,4 +51,7 @@ public class PersonService {
 
     }
 
+    public List<Person> findByAddressIn(List<String> addresses) {
+        return PersonRepository.findByAddressIn(addresses);
+    }
 }

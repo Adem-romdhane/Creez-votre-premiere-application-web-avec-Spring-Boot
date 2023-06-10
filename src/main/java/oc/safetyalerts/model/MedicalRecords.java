@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 @Data
@@ -23,14 +25,16 @@ public class MedicalRecords {
     private String firstName;
     private String lastName;
     private String birthdate;
-
-    @ElementCollection
     private List<String> medications;
-
-    @ElementCollection
     private List<String> allergies;
 
-    @ManyToOne
-    private FireStations fireStations;
+    private boolean isAdult(String birthdate) {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate birthdateDate = LocalDate.parse(birthdate);
+
+        int age = Period.between(birthdateDate, currentDate).getYears();
+
+        return age >= 18;
+    }
 
 }

@@ -79,14 +79,15 @@ class FireStationsServiceTest {
         person2.setAddress("456 Elm St");
         person2.setPhone("555-5678");
 
-        fireStation.getPersons().add(person1);
-        fireStation.getPersons().add(person2);
+        fireStation.getPersonList()
+        .add(person1);
+        fireStation.getPersonList().add(person2);
 
         // Mocking
         when(fireStationsRepository.findByStation(1)).thenReturn(List.of(fireStation));
 
         // Appel de la méthode à tester
-        List<PersonDTO> personDTOs = fireStationsService.getFireStationInfo(1);
+        List<PersonDTO> personDTOs = (List<PersonDTO>) fireStationsService.findByStationNumber(1);
 
         // Vérification des résultats
         assertEquals(2, ((List<?>) personDTOs).size());

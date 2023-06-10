@@ -22,17 +22,7 @@ public class FireStations {
     private String address;
     private int station;
 
-    private Person person;
-    private MedicalRecords medicalRecords;
+    private List<PersonDTO> personDTOS;
+    private List<Person> personList;
 
-    @OneToMany(mappedBy = "fireStation")
-    private List<Person> persons;
-
-    public List<Person> getPersons() {
-        return persons;
-    }
-
-    public void setPersons(List<Person> persons) {
-        this.persons = persons;
-    }
 }
