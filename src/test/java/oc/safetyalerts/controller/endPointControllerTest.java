@@ -3,7 +3,7 @@ package oc.safetyalerts.controller;
 import oc.safetyalerts.model.FireStations;
 import oc.safetyalerts.model.MedicalRecords;
 import oc.safetyalerts.model.Person;
-import oc.safetyalerts.model.PersonDTO;
+import oc.safetyalerts.service.dto.PersonStationDTO;
 import oc.safetyalerts.service.FireStationsService;
 import oc.safetyalerts.service.MedicalRecordsService;
 import oc.safetyalerts.service.PersonService;
@@ -66,11 +66,11 @@ class endPointControllerTest {
         when(medicalRecordsService.findByFirstNameAndLastName("John", "Doe")).thenReturn(medicalRecord);
 
         // Call the method
-        List<PersonDTO> result = endPointController.getPeopleByFireStation(stationNumber);
+        List<PersonStationDTO> result = endPointController.getPeopleByFireStation(stationNumber);
 
         // Assertion
         assertEquals(1, result.size());
-        PersonDTO personDTO = result.get(0);
+        PersonStationDTO personDTO = result.get(0);
         assertEquals("John", personDTO.getFirstName());
         assertEquals("Doe", personDTO.getLastName());
         assertEquals("123 Main St", personDTO.getAddress());

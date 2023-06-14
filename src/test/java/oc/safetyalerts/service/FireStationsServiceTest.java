@@ -2,7 +2,7 @@ package oc.safetyalerts.service;
 
 import oc.safetyalerts.model.FireStations;
 import oc.safetyalerts.model.Person;
-import oc.safetyalerts.model.PersonDTO;
+import oc.safetyalerts.service.dto.PersonStationDTO;
 import oc.safetyalerts.repository.FireStationsRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -87,18 +87,18 @@ class FireStationsServiceTest {
         when(fireStationsRepository.findByStation(1)).thenReturn(List.of(fireStation));
 
         // Appel de la méthode à tester
-        List<PersonDTO> personDTOs = (List<PersonDTO>) fireStationsService.findByStationNumber(1);
+        List<PersonStationDTO> personDTOs = (List<PersonStationDTO>) fireStationsService.findByStationNumber(1);
 
         // Vérification des résultats
         assertEquals(2, ((List<?>) personDTOs).size());
 
-        PersonDTO personDTO1 = personDTOs.get(0);
+        PersonStationDTO personDTO1 = personDTOs.get(0);
         assertEquals("John", personDTO1.getFirstName());
         assertEquals("Doe", personDTO1.getLastName());
         assertEquals("123 Main St", personDTO1.getAddress());
         assertEquals("555-1234", personDTO1.getPhone());
 
-        PersonDTO personDTO2 = personDTOs.get(1);
+        PersonStationDTO personDTO2 = personDTOs.get(1);
         assertEquals("Jane", personDTO2.getFirstName());
         assertEquals("Smith", personDTO2.getLastName());
         assertEquals("456 Elm St", personDTO2.getAddress());

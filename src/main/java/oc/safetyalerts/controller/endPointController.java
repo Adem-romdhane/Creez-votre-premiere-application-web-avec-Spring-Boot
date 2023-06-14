@@ -3,7 +3,7 @@ package oc.safetyalerts.controller;
 import oc.safetyalerts.model.FireStations;
 import oc.safetyalerts.model.MedicalRecords;
 import oc.safetyalerts.model.Person;
-import oc.safetyalerts.model.PersonDTO;
+import oc.safetyalerts.service.dto.PersonStationDTO;
 import oc.safetyalerts.service.FireStationsService;
 import oc.safetyalerts.service.MedicalRecordsService;
 import oc.safetyalerts.service.PersonService;
@@ -35,8 +35,8 @@ public class endPointController {
     endPointService endPointService;
 
     @GetMapping("/firestation")
-    public List<PersonDTO> getPeopleByFireStation(@RequestParam("stationNumber") int stationNumber) {
-        List<PersonDTO> people = new ArrayList<>();
+    public List<PersonStationDTO> getPeopleByFireStation(@RequestParam("stationNumber") int stationNumber) {
+        List<PersonStationDTO> people = new ArrayList<>();
 
         // Obtient les adresses correspondant au numéro de station
         List<FireStations> fireStations = Collections.singletonList(fireStationsService.findByStationNumber(stationNumber));
@@ -47,7 +47,7 @@ public class endPointController {
 
         // Parcourt les personnes et construit les PersonDTO correspondants
         for (Person person : persons) {
-            PersonDTO personDTO = new PersonDTO();
+            PersonStationDTO personDTO = new PersonStationDTO();
             personDTO.setFirstName(person.getFirstName());
             personDTO.setLastName(person.getLastName());
             personDTO.setAddress(person.getAddress());

@@ -1,6 +1,7 @@
-package oc.safetyalerts.model;
+package oc.safetyalerts.service.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,8 +11,10 @@ import java.time.Period;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PersonDTO {
+@Builder
+public class PersonStationDTO {
 
+    private Long id;
     private String firstName;
     private String lastName;
     private String address;
