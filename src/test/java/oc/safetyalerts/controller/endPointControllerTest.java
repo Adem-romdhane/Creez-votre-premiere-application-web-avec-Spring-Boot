@@ -3,16 +3,17 @@ package oc.safetyalerts.controller;
 import oc.safetyalerts.model.FireStations;
 import oc.safetyalerts.model.MedicalRecords;
 import oc.safetyalerts.model.Person;
-import oc.safetyalerts.service.dto.PersonStationDTO;
 import oc.safetyalerts.service.FireStationsService;
 import oc.safetyalerts.service.MedicalRecordsService;
 import oc.safetyalerts.service.PersonService;
+import oc.safetyalerts.service.dto.PersonStationDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +76,7 @@ class endPointControllerTest {
         assertEquals("Doe", personDTO.getLastName());
         assertEquals("123 Main St", personDTO.getAddress());
         assertEquals("123-456-7890", personDTO.getPhone());
-        assertFalse(personDTO.isAdult());
+        assertFalse(personDTO.isAdult(LocalDate.of(1990, 5, 15)));
 
         // Verify service method invocations
         verify(fireStationsService, times(1)).findByStationNumber(stationNumber);

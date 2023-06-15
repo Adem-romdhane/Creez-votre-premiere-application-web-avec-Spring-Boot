@@ -1,22 +1,63 @@
 package oc.safetyalerts.repository;
 
-import jakarta.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
+import oc.safetyalerts.model.FireStations;
 import oc.safetyalerts.model.Person;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
-@Repository
-public interface PersonRepository extends JpaRepository<Person, Long> {
+import java.util.stream.Collectors;
 
-    List<Person> findByAddress(String address);
+@RequiredArgsConstructor
+public class PersonRepository implements IPersonRepository{
 
-    Person findByFirstNameAndLastName(String firstName, String lastName);
+    private final JsonData jsonData;
+    @Override
+    public List<Person> findByAddress(String address) {
+        return null;
+    }
 
-    public static List<Person> findByAddressIn(List<String> addresses) {
-        EntityManager entityManager = null;
-        return entityManager.createQuery("SELECT p FROM Person p WHERE p.address IN :addresses", Person.class)
-                .setParameter("addresses", addresses)
-                .getResultList();
+    @Override
+    public Person findByFirstNameAndLastName(String firstName, String lastName) {
+        return null;
+    }
+
+    @Override
+    public List<Person> findByAddressIn(List<String> addresses) {
+        return null;
+    }
+
+    @Override
+    public List<Person> findAll() {
+        return jsonData.getPersons();
+    }
+
+    @Override
+    public Person save(Person person) {
+        return null;
+    }
+
+    @Override
+    public Person delete(Person person) {
+        return null;
+    }
+
+    @Override
+    public List<Person> findByStationNumber(int stationNumber) {
+
+        List<Person> personByStationNumber = new ArrayList<>();
+        List<FireStations> fireStations = jsonData.getFirestations();
+        List<FireStations> stations = fireStations.stream()
+                .filter(station -> station.getStation() == stationNumber)
+                .collect(Collectors.toList());
+        List<Person> people = jsonData.getPersons();
+        for (Person person : people) {
+            for (FireStations fireStations1 : stations) {
+                if (person.getAddress().equals(fireStations1.getAddress())) {
+                    personByStationNumber.add(person);
+                }
+            }
+        }
+        return personByStationNumber;
     }
 }

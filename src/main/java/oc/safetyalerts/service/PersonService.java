@@ -2,16 +2,21 @@ package oc.safetyalerts.service;
 
 import lombok.RequiredArgsConstructor;
 import oc.safetyalerts.model.Person;
-import oc.safetyalerts.repository.PersonRepository;
+import oc.safetyalerts.repository.IPersonRepository;
+import oc.safetyalerts.service.dto.PersonStationDTO;
+import oc.safetyalerts.service.mapper.PersonStationMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PersonService {
 
-    private final PersonRepository personRepository;
+    private final IPersonRepository personRepository;
+
+    private final PersonStationMapper mapper;
 
     public List<Person> getAll() {
         return personRepository.findAll();
@@ -25,9 +30,9 @@ public class PersonService {
         return personRepository.save(person);
     }
 
-    public Person getById(Long id) {
+   /* public Person getById(Long id) {
         return personRepository.findById(id).orElse(null);
-    }
+    }*/
 
     public void deletePerson(Person person) {
         personRepository.delete(person);
@@ -51,7 +56,15 @@ public class PersonService {
 
     }
 
-    public List<Person> findByAddressIn(List<String> addresses) {
-        return PersonRepository.findByAddressIn(addresses);
+  /*  public List<Person> findByAddressIn(List<String> addresses) {
+        return IPersonRepository.findByAddressIn(addresses);
+    }*/
+
+
+    public List<PersonStationDTO> findByStationNumber(int stationNumber) {
+        List<Person> personByStationNumber = personRepository.findByStationNumber(stationNumber);
+        return personByStationNumber.stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
     }
 }

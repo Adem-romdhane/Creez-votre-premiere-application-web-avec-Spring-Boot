@@ -1,9 +1,19 @@
 package oc.safetyalerts.repository;
 
 import oc.safetyalerts.model.MedicalRecords;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MedicalRecordsRepository extends JpaRepository<MedicalRecords,Long> {
+import java.util.List;
+import java.util.Optional;
+
+public interface MedicalRecordsRepository {
 
     MedicalRecords findByFirstNameAndLastName(String firstName, String lastName);
+
+    MedicalRecords save(MedicalRecords updateMedical);
+
+    void deleteById(Long id);
+
+    Optional<MedicalRecords> findById(Long id);
+
+    List<MedicalRecords> findAll();
 }

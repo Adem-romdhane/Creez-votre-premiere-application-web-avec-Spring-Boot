@@ -1,6 +1,6 @@
 package oc.safetyalerts.controller;
 
-import oc.safetyalerts.repository.PersonRepository;
+import oc.safetyalerts.repository.IPersonRepository;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 class PersonControllerIntegrationTest {
 
     @Mock
-    private PersonRepository personRepository;
+    private IPersonRepository personRepository;
 
     @InjectMocks
     private PersonController personController;

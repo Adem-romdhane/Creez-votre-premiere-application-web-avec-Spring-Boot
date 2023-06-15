@@ -1,4 +1,4 @@
-package oc.safetyalerts.service;
+package oc.safetyalerts.repository;
 
 import oc.safetyalerts.model.FireStations;
 import oc.safetyalerts.model.MedicalRecords;

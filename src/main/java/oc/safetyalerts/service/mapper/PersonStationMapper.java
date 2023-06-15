@@ -5,7 +5,7 @@ import oc.safetyalerts.service.dto.PersonStationDTO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PersionStationMapper {
+public class PersonStationMapper {
     // MAPPING
     public PersonStationDTO toDto(Person person){
         PersonStationDTO dto = new PersonStationDTO();

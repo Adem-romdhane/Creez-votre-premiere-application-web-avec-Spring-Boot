@@ -3,7 +3,7 @@ package oc.safetyalerts.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import oc.safetyalerts.model.Person;
-import oc.safetyalerts.repository.PersonRepository;
+import oc.safetyalerts.repository.IPersonRepository;
 import oc.safetyalerts.service.PersonService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -40,7 +40,7 @@ class PersonControllerTest {
     private PersonService personService;
 
     @Mock
-    private PersonRepository personRepository;
+    private IPersonRepository personRepository;
     @Autowired
     private MockMvc mockMvc;
 

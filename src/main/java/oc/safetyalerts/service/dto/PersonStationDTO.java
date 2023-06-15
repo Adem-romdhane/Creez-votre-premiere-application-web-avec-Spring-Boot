@@ -14,7 +14,6 @@ import java.time.Period;
 @Builder
 public class PersonStationDTO {
 
-    private Long id;
     private String firstName;
     private String lastName;
     private String address;
@@ -24,13 +23,9 @@ public class PersonStationDTO {
 
     }
 
-    public boolean isAdult() {
+    public boolean isAdult(LocalDate birthdate) {
         LocalDate currentDate = LocalDate.now();
-        CharSequence birthdate = null;
-        LocalDate birthdateDate = LocalDate.parse(birthdate);
-
-        int age = Period.between(birthdateDate, currentDate).getYears();
-
+        int age = Period.between(birthdate, currentDate).getYears();
         return age >= 18;
     }
 }

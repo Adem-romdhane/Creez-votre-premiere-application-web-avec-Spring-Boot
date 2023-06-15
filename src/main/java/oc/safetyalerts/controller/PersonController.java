@@ -37,7 +37,8 @@ public class PersonController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Person> findPersonById(@PathVariable Long id) {
-        return new ResponseEntity<>(personService.getById(id), HttpStatus.OK);
+     //   return new ResponseEntity<>(personService.getById(id), HttpStatus.OK);
+        return null;
     }
 
     @GetMapping("/getPersonByName")
@@ -45,7 +46,7 @@ public class PersonController {
         return new ResponseEntity<>(personService.getByFirstNameAndLastName(firstName, lastName), HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
+   /* @PutMapping("/{id}")
     public ResponseEntity<Person> updatePerson(@PathVariable Long id, @RequestBody Person person) {
         Person personFinded = personService.getById(id);
         if (personFinded == null) {
@@ -53,9 +54,9 @@ public class PersonController {
         }
         personService.updatePerson(personFinded);
         return new ResponseEntity<>(personService.updatePerson(person), HttpStatus.CREATED);
-    }
+    }*/
 
-    @DeleteMapping("/{id}")
+  /* @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePersonById(@PathVariable Long id) {
         Person personFinded = personService.getById(id);
         if (personFinded == null) {
@@ -64,5 +65,5 @@ public class PersonController {
 
         personService.deletePerson(personFinded);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+    }*/
 }
