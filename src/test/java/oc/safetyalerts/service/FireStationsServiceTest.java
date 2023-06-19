@@ -3,7 +3,7 @@ package oc.safetyalerts.service;
 import oc.safetyalerts.model.FireStations;
 import oc.safetyalerts.model.Person;
 import oc.safetyalerts.service.dto.PersonStationDTO;
-import oc.safetyalerts.repository.FireStationsRepository;
+import oc.safetyalerts.repository.IFireStationsRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 class FireStationsServiceTest {
 
     @Mock
-    private FireStationsRepository fireStationsRepository;
+    private IFireStationsRepository fireStationsRepository;
 
     @InjectMocks
     private FireStationsService fireStationsService;

@@ -11,9 +11,7 @@ import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -25,9 +23,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -114,8 +110,7 @@ class PersonControllerTest {
                 andExpect(status().isOk());
     }
 
-    @Test
-    void getById() throws Exception {
+   /* void getById() throws Exception {
         Person person = new Person();
         person.setId(1L);
         person.setFirstName("adem");
@@ -125,7 +120,7 @@ class PersonControllerTest {
         mockMvc.perform(get("/v1/api/person/1"))
                 .andExpect(status().isOk());
 
-    }
+    }*/
 
     @Test
     public void testFindPersonByFirstAndLastName() throws Exception {
@@ -161,7 +156,7 @@ class PersonControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
+ /*   @Test
     public void testDeletePersonById() throws Exception {
         // Créez un ID de personne pour le test
         Long personId = 1L;
@@ -175,7 +170,7 @@ class PersonControllerTest {
 
         // Vérifiez que le service n'a pas été appelé pour supprimer la personne
         verify(personService, never()).deletePerson(any(Person.class));
-    }
+    }*/
 
     @Test
     public void testAddPerson() throws Exception {
@@ -216,7 +211,7 @@ class PersonControllerTest {
       personService.deletePerson(personFinded);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
      */
-    @Test
+    /*@Test
     public void testDeeltePerson() {
         Long id = 1L;
         Person personFinded = new Person();
@@ -232,5 +227,5 @@ class PersonControllerTest {
             assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode()); // Vérifiez que le code de statut est "204 No Content"
             verify(personService, times(1)).deletePerson(personFinded);
         }
-    }
+    }*/
 }

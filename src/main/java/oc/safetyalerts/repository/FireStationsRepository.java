@@ -1,25 +1,54 @@
 package oc.safetyalerts.repository;
 
+import lombok.RequiredArgsConstructor;
 import oc.safetyalerts.model.FireStations;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
-@Repository
-public interface FireStationsRepository {
-    List<FireStations> findByStation(int stationNumber);
-    List<FireStations> findByAddress(String address);
+@Component
+@RequiredArgsConstructor
+public class FireStationsRepository implements IFireStationsRepository {
 
-    List<FireStations> findByStationNumber(int stationNumber);
+    private final JsonData jsonData;
+    @Override
+    public List<FireStations> findByStation(int stationNumber) {
+        return null;
+    }
 
-    List<FireStations> getInfoStation(int stationNumber);
+    @Override
+    public List<FireStations> findByAddress(String address) {
+        return null;
+    }
 
-    List<FireStations> findAll();
+    @Override
+    public List<FireStations> findByStationNumber(int stationNumber) {
+        return null;
+    }
 
-    FireStations save(FireStations fireStations);
+    @Override
+    public List<FireStations> getInfoStation(int stationNumber) {
+        return null;
+    }
 
-    Optional<FireStations> findById(Long id);
+    @Override
+    public List<FireStations> findAll() {
+        return jsonData.getFirestations();
+    }
 
-    void deleteById(Long id);
+    @Override
+    public FireStations save(FireStations fireStations) {
+        return null;
+    }
+
+    @Override
+    public Optional<FireStations> findById(Long id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+
+    }
 }

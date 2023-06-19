@@ -3,15 +3,18 @@ package oc.safetyalerts.repository;
 import lombok.RequiredArgsConstructor;
 import oc.safetyalerts.model.FireStations;
 import oc.safetyalerts.model.Person;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 @RequiredArgsConstructor
-public class PersonRepository implements IPersonRepository{
+public class PersonRepository implements IPersonRepository {
 
     private final JsonData jsonData;
+
     @Override
     public List<Person> findByAddress(String address) {
         return null;
@@ -60,4 +63,20 @@ public class PersonRepository implements IPersonRepository{
         }
         return personByStationNumber;
     }
+
+    public List<String> getEmailsByCity(List<Person> persons, String city) {
+        List<String> emails = new ArrayList<>();
+
+        for (Person person : persons) {
+            if (person.getCity().equalsIgnoreCase(city)) {
+                emails.add(person.getEmail());
+            }
+        }
+
+        return emails;
+    }
+
+
+
+
 }

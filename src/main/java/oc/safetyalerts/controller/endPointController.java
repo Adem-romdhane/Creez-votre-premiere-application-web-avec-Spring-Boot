@@ -1,7 +1,6 @@
 package oc.safetyalerts.controller;
 
 import oc.safetyalerts.model.FireStations;
-import oc.safetyalerts.model.Person;
 import oc.safetyalerts.repository.JsonData;
 import oc.safetyalerts.service.FireStationsService;
 import oc.safetyalerts.service.MedicalRecordsService;
@@ -10,13 +9,14 @@ import oc.safetyalerts.service.dto.PersonStationDTO;
 import oc.safetyalerts.service.endPointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/v1/api")
 public class endPointController {
     @Autowired
     FireStationsService fireStationsService;
@@ -38,6 +38,8 @@ public class endPointController {
         return personService.findByStationNumber(stationNumber);
     }
 
+
+
     @GetMapping("/fireStationInfo")
     public String getFireStationInfo(@RequestParam("stationNumber") int stationNumber) {
         FireStations fireStation = fireStationsService.findByStationNumber(stationNumber);
@@ -52,14 +54,6 @@ public class endPointController {
     //http://localhost:8080/communityEmail?city=%3Ccity
     @GetMapping("/communityEmail")
     public List<String> getCommunityEmail(@RequestParam("city") String city) {
-        List<String> emails = new ArrayList<>();
-
-        for (Person person : jsonService.getPersons()) {
-            if (person.getCity().equalsIgnoreCase(city)) {
-                emails.add(person.getEmail());
-            }
-        }
-
-        return emails;
+        return personService.getEmailsByCity(city);
     }
 }

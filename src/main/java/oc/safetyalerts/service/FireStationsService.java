@@ -2,7 +2,7 @@ package oc.safetyalerts.service;
 
 import lombok.RequiredArgsConstructor;
 import oc.safetyalerts.model.FireStations;
-import oc.safetyalerts.repository.FireStationsRepository;
+import oc.safetyalerts.repository.IFireStationsRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
 public class FireStationsService {
 
 
-    private final FireStationsRepository fireStationsRepository;
+    private final IFireStationsRepository fireStationsRepository;
 
     private List<FireStations> fireStations;
 
@@ -45,6 +45,9 @@ public class FireStationsService {
     public FireStations findByStationNumber(int stationNumber) {
         return (FireStations) fireStationsRepository.getInfoStation(stationNumber);
     }
+
+
+
 }
 
 

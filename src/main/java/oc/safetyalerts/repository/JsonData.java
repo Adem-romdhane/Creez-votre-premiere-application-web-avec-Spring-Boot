@@ -1,6 +1,7 @@
 package oc.safetyalerts.repository;
 
 import com.google.gson.Gson;
+import lombok.RequiredArgsConstructor;
 import oc.safetyalerts.model.FireStations;
 import oc.safetyalerts.model.MedicalRecords;
 import oc.safetyalerts.model.Person;
@@ -11,8 +12,10 @@ import java.io.IOException;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class JsonData {
 
+    private Person person;
     Gson gson = new Gson();
 
     private Data readData() {
@@ -40,6 +43,8 @@ public class JsonData {
     public List<MedicalRecords> getMedicalRecords() {
         return readData().getMedicalrecords();
     }
+
+
 }
 
 

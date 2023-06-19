@@ -1,19 +1,37 @@
 package oc.safetyalerts.repository;
 
+import lombok.RequiredArgsConstructor;
 import oc.safetyalerts.model.MedicalRecords;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface MedicalRecordsRepository {
+@Component
+@RequiredArgsConstructor
+public class MedicalRecordsRepository implements IMedicalRecordsRepository{
+    @Override
+    public MedicalRecords findByFirstNameAndLastName(String firstName, String lastName) {
+        return null;
+    }
 
-    MedicalRecords findByFirstNameAndLastName(String firstName, String lastName);
+    @Override
+    public MedicalRecords save(MedicalRecords updateMedical) {
+        return null;
+    }
 
-    MedicalRecords save(MedicalRecords updateMedical);
+    @Override
+    public void deleteById(Long id) {
 
-    void deleteById(Long id);
+    }
 
-    Optional<MedicalRecords> findById(Long id);
+    @Override
+    public Optional<MedicalRecords> findById(Long id) {
+        return Optional.empty();
+    }
 
-    List<MedicalRecords> findAll();
+    @Override
+    public List<MedicalRecords> findAll() {
+        return null;
+    }
 }

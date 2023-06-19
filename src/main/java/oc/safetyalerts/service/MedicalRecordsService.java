@@ -12,7 +12,7 @@ import java.util.List;
 public class MedicalRecordsService {
 
 
-    private final MedicalRecordsRepository medicalRecordsRepository;
+    private final IMedicalRecordsRepository medicalRecordsRepository;
 
     public List<MedicalRecords> getAll(){return medicalRecordsRepository.findAll();}
 

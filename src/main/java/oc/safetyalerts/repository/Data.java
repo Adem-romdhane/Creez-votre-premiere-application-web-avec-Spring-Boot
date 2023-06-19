@@ -12,4 +12,5 @@ public class Data {
     private List<FireStations> firestations;
     private List<MedicalRecords> medicalrecords;
 
+
 }

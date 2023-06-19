@@ -1,7 +1,7 @@
 package oc.safetyalerts.service;
 
 import oc.safetyalerts.model.MedicalRecords;
-import oc.safetyalerts.repository.MedicalRecordsRepository;
+import oc.safetyalerts.repository.IMedicalRecordsRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 @AutoConfigureMockMvc
 class MedicalRecordsServiceTest {
     @Mock
-    private MedicalRecordsRepository medicalRecordsRepository;
+    private IMedicalRecordsRepository medicalRecordsRepository;
 
     @InjectMocks
     private MedicalRecordsService medicalRecordsService;

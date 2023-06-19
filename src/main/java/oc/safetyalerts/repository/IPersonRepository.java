@@ -19,4 +19,7 @@ public interface IPersonRepository {
 
     List<Person> findByStationNumber(int stationNumber);
 
+
+
+    List<String> getEmailsByCity(List<Person> persons, String city);
 }

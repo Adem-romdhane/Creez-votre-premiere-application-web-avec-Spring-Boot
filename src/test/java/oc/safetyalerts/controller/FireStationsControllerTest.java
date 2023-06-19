@@ -2,7 +2,7 @@ package oc.safetyalerts.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import oc.safetyalerts.model.FireStations;
-import oc.safetyalerts.repository.FireStationsRepository;
+import oc.safetyalerts.repository.IFireStationsRepository;
 import oc.safetyalerts.service.FireStationsService;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ class FireStationsControllerTest {
     private FireStationsService fireStationsService;
 
     @MockBean
-    private FireStationsRepository fireStationsRepository;
+    private IFireStationsRepository fireStationsRepository;
 
     @InjectMocks
     private FireStationsController fireStationsController;

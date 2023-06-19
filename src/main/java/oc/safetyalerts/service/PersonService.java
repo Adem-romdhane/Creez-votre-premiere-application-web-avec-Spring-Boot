@@ -3,7 +3,9 @@ package oc.safetyalerts.service;
 import lombok.RequiredArgsConstructor;
 import oc.safetyalerts.model.Person;
 import oc.safetyalerts.repository.IPersonRepository;
+import oc.safetyalerts.repository.JsonData;
 import oc.safetyalerts.service.dto.PersonStationDTO;
+import oc.safetyalerts.service.mapper.PersonCityMapper;
 import oc.safetyalerts.service.mapper.PersonStationMapper;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,10 @@ public class PersonService {
     private final IPersonRepository personRepository;
 
     private final PersonStationMapper mapper;
+
+    private final PersonCityMapper cityMapper;
+
+    private final JsonData jsonData;
 
     public List<Person> getAll() {
         return personRepository.findAll();
@@ -67,4 +73,15 @@ public class PersonService {
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
     }
+
+
+
+    public List<String> getEmailsByCity(String city) {
+        List<Person> persons = jsonData.getPersons();
+        return personRepository.getEmailsByCity(persons, city);
+    }
+
+
+
+
 }

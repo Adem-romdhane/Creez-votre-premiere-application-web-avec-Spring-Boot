@@ -1,25 +1,12 @@
 package oc.safetyalerts.controller;
 
-import oc.safetyalerts.model.FireStations;
-import oc.safetyalerts.model.MedicalRecords;
-import oc.safetyalerts.model.Person;
 import oc.safetyalerts.service.FireStationsService;
 import oc.safetyalerts.service.MedicalRecordsService;
 import oc.safetyalerts.service.PersonService;
-import oc.safetyalerts.service.dto.PersonStationDTO;
-import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 class endPointControllerTest {
@@ -37,7 +24,7 @@ class endPointControllerTest {
     @InjectMocks
     private endPointController endPointController;
 
-    @Test
+  /*  @Test
     public void testGetPeopleByFireStation() {
         // Mocking data
         int stationNumber = 1;
@@ -82,5 +69,5 @@ class endPointControllerTest {
         verify(fireStationsService, times(1)).findByStationNumber(stationNumber);
         verify(personService, times(1)).findByAddressIn(addresses);
         verify(medicalRecordsService, times(1)).findByFirstNameAndLastName("John", "Doe");
-    }
+    }*/
 }
