@@ -20,6 +20,7 @@ public class PersonInfoMapper {
         dto.setAddress(person.getAddress());
         dto.setAllergies(medicalRecords.getAllergies());
         dto.setMedications(medicalRecords.getMedications());
+        // CONVERT A BIRTHDATE IN A AGE INTEGER
         String birthdateStr = medicalRecords.getBirthdate();
         LocalDate birthdate = LocalDate.parse(birthdateStr, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
         LocalDate currentDate = LocalDate.now();
