@@ -24,13 +24,6 @@ public class MedicalRecords {
     private List<String> medications;
     private List<String> allergies;
 
-    private boolean isAdult(String birthdate) {
-        LocalDate currentDate = LocalDate.now();
-        LocalDate birthdateDate = LocalDate.parse(birthdate);
 
-        int age = Period.between(birthdateDate, currentDate).getYears();
-
-        return age >= 18;
-    }
 
 }

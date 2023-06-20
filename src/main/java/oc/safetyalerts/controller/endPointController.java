@@ -1,10 +1,10 @@
 package oc.safetyalerts.controller;
 
-import oc.safetyalerts.model.FireStations;
 import oc.safetyalerts.repository.JsonData;
 import oc.safetyalerts.service.FireStationsService;
 import oc.safetyalerts.service.MedicalRecordsService;
 import oc.safetyalerts.service.PersonService;
+import oc.safetyalerts.service.dto.PersonInfoDTO;
 import oc.safetyalerts.service.dto.PersonStationDTO;
 import oc.safetyalerts.service.endPointService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,16 +39,14 @@ public class endPointController {
     }
 
 
+    @GetMapping("/phoneAlert")
+    public List<String> getPhone(@RequestParam("stationNumber") int stationNumber){
+        return personService.findPhoneByStationNumber(stationNumber);
+    }
 
-    @GetMapping("/fireStationInfo")
-    public String getFireStationInfo(@RequestParam("stationNumber") int stationNumber) {
-        FireStations fireStation = fireStationsService.findByStationNumber(stationNumber);
-        if (fireStation != null) {
-            return "Station Number: " + fireStation.getStation() +
-                    "\nAddress: " + fireStation.getAddress();
-        } else {
-            return "Station Number not found";
-        }
+    @GetMapping("/personInfo")
+    public List<PersonInfoDTO> getPersonInfo(@RequestParam("firstName") String firstName,@RequestParam("lastName") String lastName){
+        return personService.findPersonInfoByFirstAndLastName(firstName,lastName);
     }
 
     //http://localhost:8080/communityEmail?city=%3Ccity
@@ -56,4 +54,11 @@ public class endPointController {
     public List<String> getCommunityEmail(@RequestParam("city") String city) {
         return personService.getEmailsByCity(city);
     }
+
+
+  /*  @GetMapping("/childAlert")
+    public List<ChildAlertDTO> getChildAlert(@RequestParam("address") String address) {
+        return personService.getChildrenByAddress(address);
+    }*/
+
 }
