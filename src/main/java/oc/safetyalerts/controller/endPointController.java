@@ -34,24 +34,27 @@ public class endPointController {
     @Autowired
     JsonData jsonService;
 
+    //http://localhost:8080/v1/api/firestation?stationNumber=2
     @GetMapping("/firestation")
     public List<PersonStationDTO> getPeopleByFireStation(@RequestParam("stationNumber") int stationNumber) {
         return personService.findByStationNumber(stationNumber);
     }
 
-
+    //http://localhost:8080/v1/api/phoneAlert?stationNumber=2
     @GetMapping("/phoneAlert")
-    public List<String> getPhone(@RequestParam("stationNumber") int stationNumber){
+    public List<String> getPhone(@RequestParam("stationNumber") int stationNumber) {
         return personService.findPhoneByStationNumber(stationNumber);
     }
 
+    //http://localhost:8080/v1/api/personInfo?firstName=John&lastName=Boyd
     @GetMapping("/personInfo")
-    public List<PersonInfoDTO> getPersonInfo(@RequestParam("firstName") String firstName,@RequestParam("lastName") String lastName){
-        return personService.findPersonInfoByFirstAndLastName(firstName,lastName);
+    public List<PersonInfoDTO> getPersonInfo(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
+        return personService.findPersonInfoByFirstAndLastName(firstName, lastName);
     }
 
+    //http://localhost:8080/v1/api/fire?address=951%20LoneTree%20Rd
     @GetMapping("/fire")
-    public List<PersonFireAddressDTO> getPersonByAddress(@RequestParam("address") String address){
+    public List<PersonFireAddressDTO> getPersonByAddress(@RequestParam("address") String address) {
         return personService.getPeopleByAddress(address);
     }
 
