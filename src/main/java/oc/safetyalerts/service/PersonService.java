@@ -1,10 +1,12 @@
 package oc.safetyalerts.service;
 
 import lombok.RequiredArgsConstructor;
+import oc.safetyalerts.model.FireStations;
 import oc.safetyalerts.model.MedicalRecords;
 import oc.safetyalerts.model.Person;
 import oc.safetyalerts.repository.IPersonRepository;
 import oc.safetyalerts.repository.JsonData;
+import oc.safetyalerts.service.dto.PersonFireAddressDTO;
 import oc.safetyalerts.service.dto.PersonInfoDTO;
 import oc.safetyalerts.service.dto.PersonStationDTO;
 import oc.safetyalerts.service.mapper.ChildAlertMapper;
@@ -95,6 +97,13 @@ public class PersonService {
         List<Person> people = jsonData.getPersons();
         List<MedicalRecords> medicalRecords = jsonData.getMedicalRecords();
         return personRepository.findPersonInfoByFirstAndLastName(firstName,lastName);
+    }
+
+    public List<PersonFireAddressDTO> getPeopleByAddress(String address) {
+        List<Person> people = jsonData.getPersons();
+        List<MedicalRecords> medicalRecords = jsonData.getMedicalRecords();
+        List<FireStations> fireStations=jsonData.getFirestations();
+        return personRepository.getPeopleByAddress(address);
     }
 }
 

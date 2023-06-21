@@ -4,6 +4,7 @@ import oc.safetyalerts.repository.JsonData;
 import oc.safetyalerts.service.FireStationsService;
 import oc.safetyalerts.service.MedicalRecordsService;
 import oc.safetyalerts.service.PersonService;
+import oc.safetyalerts.service.dto.PersonFireAddressDTO;
 import oc.safetyalerts.service.dto.PersonInfoDTO;
 import oc.safetyalerts.service.dto.PersonStationDTO;
 import oc.safetyalerts.service.endPointService;
@@ -47,6 +48,11 @@ public class endPointController {
     @GetMapping("/personInfo")
     public List<PersonInfoDTO> getPersonInfo(@RequestParam("firstName") String firstName,@RequestParam("lastName") String lastName){
         return personService.findPersonInfoByFirstAndLastName(firstName,lastName);
+    }
+
+    @GetMapping("/fire")
+    public List<PersonFireAddressDTO> getPersonByAddress(@RequestParam("address") String address){
+        return personService.getPeopleByAddress(address);
     }
 
     //http://localhost:8080/communityEmail?city=%3Ccity

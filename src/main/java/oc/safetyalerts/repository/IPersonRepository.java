@@ -2,6 +2,7 @@ package oc.safetyalerts.repository;
 
 import oc.safetyalerts.model.Person;
 import oc.safetyalerts.service.dto.ChildAlertDTO;
+import oc.safetyalerts.service.dto.PersonFireAddressDTO;
 import oc.safetyalerts.service.dto.PersonInfoDTO;
 import org.springframework.stereotype.Repository;
 
@@ -31,4 +32,6 @@ public interface IPersonRepository {
     List<ChildAlertDTO> getChildAlert(String address);
 
     List<PersonInfoDTO> findPersonInfoByFirstAndLastName(String firstName, String lastName);
+
+    List<PersonFireAddressDTO> getPeopleByAddress(String address);
 }

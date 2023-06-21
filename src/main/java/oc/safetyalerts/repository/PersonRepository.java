@@ -5,7 +5,9 @@ import oc.safetyalerts.model.FireStations;
 import oc.safetyalerts.model.MedicalRecords;
 import oc.safetyalerts.model.Person;
 import oc.safetyalerts.service.dto.ChildAlertDTO;
+import oc.safetyalerts.service.dto.PersonFireAddressDTO;
 import oc.safetyalerts.service.dto.PersonInfoDTO;
+import oc.safetyalerts.service.mapper.PersonFireAddressMapper;
 import oc.safetyalerts.service.mapper.PersonInfoMapper;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +21,10 @@ public class PersonRepository implements IPersonRepository {
 
     private final JsonData jsonData;
 
+    private final PersonFireAddressMapper mapper2;
+
     private final PersonInfoMapper mapper;
+
     @Override
     public List<Person> findByAddress(String address) {
         return null;
@@ -122,6 +127,33 @@ public class PersonRepository implements IPersonRepository {
 
         return personInfoDTOs;
     }
+
+    @Override
+    public List<PersonFireAddressDTO> getPeopleByAddress(String address) {
+        List<Person> people = jsonData.getPersons();
+        List<FireStations> fireStations = jsonData.getFirestations();
+        List<MedicalRecords> medicalRecords = jsonData.getMedicalRecords();
+        List<PersonFireAddressDTO> personFireAddressDTOS = new ArrayList<>();
+
+        for (Person person : people) {
+            if (person.getAddress().equals(address)) {
+                for (FireStations fireStations1 : fireStations) {
+                    if (fireStations1.getAddress().equals(address)) {
+                        for (MedicalRecords medicalRecord : medicalRecords) {
+                            if (medicalRecord.getFirstName().equals(person.getFirstName()) && medicalRecord.getLastName().equals(person.getLastName())) {
+                                PersonFireAddressDTO personFireAddressDTO = mapper2.toDto(person, medicalRecord, fireStations1);
+                                personFireAddressDTOS.add(personFireAddressDTO);
+                                break; // Sortir de la boucle si le dossier médical est trouvé
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return personFireAddressDTOS;
+    }
+
+
 
     public List<String> getEmailsByCity(List<Person> persons, String city) {
         List<String> emails = new ArrayList<>();
