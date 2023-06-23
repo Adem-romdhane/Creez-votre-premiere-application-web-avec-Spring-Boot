@@ -1,11 +1,9 @@
 package oc.safetyalerts.service;
 
 import lombok.RequiredArgsConstructor;
-import oc.safetyalerts.model.FireStations;
-import oc.safetyalerts.model.MedicalRecords;
 import oc.safetyalerts.model.Person;
 import oc.safetyalerts.repository.IPersonRepository;
-import oc.safetyalerts.repository.JsonData;
+import oc.safetyalerts.service.dto.ChildAlertDTO;
 import oc.safetyalerts.service.dto.PersonFireAddressDTO;
 import oc.safetyalerts.service.dto.PersonInfoDTO;
 import oc.safetyalerts.service.dto.PersonStationDTO;
@@ -29,7 +27,7 @@ public class PersonService {
 
     private final ChildAlertMapper childAlertMapper;
 
-    private final JsonData jsonData;
+
 
     public List<Person> getAll() {
         return personRepository.findAll();
@@ -83,33 +81,26 @@ public class PersonService {
 
 
     public List<String> getEmailsByCity(String city) {
-        List<Person> persons = jsonData.getPersons();
-        return personRepository.getEmailsByCity(persons, city);
+        return personRepository.getEmailsByCity(city);
     }
 
     public List<String> findPhoneByStationNumber(int stationNumber) {
-        List<Person> personList = jsonData.getPersons();
-        return personRepository.findPhoneByStationNumber(personList, stationNumber);
+        return personRepository.findPhoneByStationNumber(stationNumber);
     }
 
 
     public List<PersonInfoDTO> findPersonInfoByFirstAndLastName(String firstName, String lastName) {
-        List<Person> people = jsonData.getPersons();
-        List<MedicalRecords> medicalRecords = jsonData.getMedicalRecords();
-        return personRepository.findPersonInfoByFirstAndLastName(firstName,lastName);
+        return personRepository.findPersonInfoByFirstAndLastName(firstName, lastName);
     }
 
     public List<PersonFireAddressDTO> getPeopleByAddress(String address) {
-        List<Person> people = jsonData.getPersons();
-        List<MedicalRecords> medicalRecords = jsonData.getMedicalRecords();
-        List<FireStations> fireStations=jsonData.getFirestations();
         return personRepository.getPeopleByAddress(address);
+    }
+
+    public List<ChildAlertDTO> getChildrenByAddress(String address) {
+        return personRepository.getChildAlert(address);
     }
 }
 
 
-   /* public List<ChildAlertDTO> getChildrenByAddress(String address) {
-    List<ChildAlertDTO> people = personRepository.getChildAlert(address);
-    return people.stream()
-            .
-}*/
+

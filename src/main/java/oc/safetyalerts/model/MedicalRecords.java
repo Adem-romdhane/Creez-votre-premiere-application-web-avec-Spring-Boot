@@ -6,8 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.List;
 
 @Data
@@ -17,7 +15,6 @@ import java.util.List;
 public class MedicalRecords {
 
 
-    private Long id;
     private String firstName;
     private String lastName;
     private String birthdate;

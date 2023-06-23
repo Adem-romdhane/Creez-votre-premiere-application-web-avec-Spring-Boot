@@ -25,9 +25,9 @@ public interface IPersonRepository {
 
     List<Person> findByStationNumber(int stationNumber);
 
-    List<String> findPhoneByStationNumber(List<Person> persons,int stationNumber);
+    List<String> findPhoneByStationNumber(int stationNumber);
 
-    List<String> getEmailsByCity(List<Person> persons, String city);
+    List<String> getEmailsByCity(String city);
 
     List<ChildAlertDTO> getChildAlert(String address);
 

@@ -1,13 +1,11 @@
 package oc.safetyalerts.controller;
 
-import oc.safetyalerts.repository.JsonData;
 import oc.safetyalerts.service.FireStationsService;
-import oc.safetyalerts.service.MedicalRecordsService;
 import oc.safetyalerts.service.PersonService;
+import oc.safetyalerts.service.dto.ChildAlertDTO;
 import oc.safetyalerts.service.dto.PersonFireAddressDTO;
 import oc.safetyalerts.service.dto.PersonInfoDTO;
 import oc.safetyalerts.service.dto.PersonStationDTO;
-import oc.safetyalerts.service.endPointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,15 +22,6 @@ public class endPointController {
 
     @Autowired
     PersonService personService;
-
-    @Autowired
-    MedicalRecordsService medicalRecordsService;
-
-    @Autowired
-    endPointService endPointService;
-
-    @Autowired
-    JsonData jsonService;
 
     //http://localhost:8080/v1/api/firestation?stationNumber=2
     @GetMapping("/firestation")
@@ -65,9 +54,17 @@ public class endPointController {
     }
 
 
-  /*  @GetMapping("/childAlert")
+
+ /*   @GetMapping("/flood/stations")
+    public Integer getFloodStations(@RequestParam("stations") List<Integer> stationNumbers) {
+
+
+    }*/
+
+
+   @GetMapping("/childAlert")
     public List<ChildAlertDTO> getChildAlert(@RequestParam("address") String address) {
         return personService.getChildrenByAddress(address);
-    }*/
+    }
 
 }

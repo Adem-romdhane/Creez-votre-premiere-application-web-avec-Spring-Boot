@@ -7,10 +7,14 @@ import oc.safetyalerts.model.Person;
 import oc.safetyalerts.service.dto.ChildAlertDTO;
 import oc.safetyalerts.service.dto.PersonFireAddressDTO;
 import oc.safetyalerts.service.dto.PersonInfoDTO;
+import oc.safetyalerts.service.mapper.ChildAlertMapper;
 import oc.safetyalerts.service.mapper.PersonFireAddressMapper;
 import oc.safetyalerts.service.mapper.PersonInfoMapper;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +27,7 @@ public class PersonRepository implements IPersonRepository {
 
     private final PersonFireAddressMapper mapper2;
 
+    private final ChildAlertMapper childAlertMapper;
     private final PersonInfoMapper mapper;
 
     @Override
@@ -60,10 +65,11 @@ public class PersonRepository implements IPersonRepository {
 
         List<Person> personByStationNumber = new ArrayList<>();
         List<FireStations> fireStations = jsonData.getFirestations();
+        List<Person> people = jsonData.getPersons();
         List<FireStations> stations = fireStations.stream()
                 .filter(station -> station.getStation() == stationNumber)
                 .collect(Collectors.toList());
-        List<Person> people = jsonData.getPersons();
+
         for (Person person : people) {
             for (FireStations fireStations1 : stations) {
                 if (person.getAddress().equals(fireStations1.getAddress())) {
@@ -75,9 +81,11 @@ public class PersonRepository implements IPersonRepository {
     }
 
     @Override
-    public List<String> findPhoneByStationNumber(List<Person> persons, int stationNumber) {
+    public List<String> findPhoneByStationNumber(int stationNumber) {
         List<String> phoneNumbers = new ArrayList<>();
         List<FireStations> fireStations = jsonData.getFirestations();
+        List<Person> persons = jsonData.getPersons();
+
         List<FireStations> stations = fireStations.stream()
                 .filter(station -> station.getStation() == stationNumber)
                 .collect(Collectors.toList());
@@ -92,21 +100,74 @@ public class PersonRepository implements IPersonRepository {
     }
 
 
-    public List<ChildAlertDTO> getChildAlert(String address) {
+ /*   public List<ChildAlertDTO> getChildAlert(String address) {
         List<ChildAlertDTO> persons = new ArrayList<>();
-        List<ChildAlertDTO> childAlertDTOList = persons.stream()
-                .filter(person -> person.getAddress() == address)
-                .collect(Collectors.toList());
+        List<ChildAlertDTO> childAlertDTOList = new ArrayList<>();
         List<MedicalRecords> medicalRecords = jsonData.getMedicalRecords();
         for (MedicalRecords medicalRecords1 : medicalRecords) {
             for (ChildAlertDTO child : persons) {
-                if (child.calculateAge() <= 18) {
-                    persons.add(child);
+                if (child.getAge() <= 18) {
+                    childAlertDTOList.add(child);
                 }
             }
         }
-        return persons;
+        return childAlertDTOList;
     }
+*/
+
+    public List<ChildAlertDTO> getChildAlert(String address) {
+        List<ChildAlertDTO> childAlertDTOList = new ArrayList<>();
+        List<Person> persons = jsonData.getPersons();
+        List<MedicalRecords> medicalRecords = jsonData.getMedicalRecords();
+
+        List<Person> peopleFinded = persons.stream()
+                .filter(person -> person.getAddress().equals(address))
+                .collect(Collectors.toList());
+
+        for (Person person : peopleFinded) {
+            for (MedicalRecords medicalRecord : medicalRecords) {
+                if (person.getFirstName().equals(medicalRecord.getFirstName())
+                        && person.getLastName().equals(medicalRecord.getLastName())) {
+                    ChildAlertDTO childAlertDTO = childAlertMapper.toDto(medicalRecord);
+                    List<MedicalRecords> medicalRecordsList = medicalRecords.stream().filter(mr ->
+                                    person.getLastName().equals(mr.getLastName()))
+                            .collect(Collectors.toList());
+                    childAlertDTO.setHouseMembers(medicalRecordsList);
+                    if (childAlertDTO.getAge() <=18){
+                        childAlertDTOList.add(childAlertDTO);
+                    }
+
+                }
+            }
+        }
+
+        return childAlertDTOList;
+    }
+
+    private boolean isChild(Person person, List<MedicalRecords> medicalRecords) {
+        String personFullName = person.getLastName();
+        return medicalRecords.stream()
+                .filter(medicalRecord -> medicalRecord.getLastName().equals(personFullName))
+                .map(medicalRecord -> LocalDate.parse(medicalRecord.getBirthdate(), DateTimeFormatter.ofPattern("MM/dd/yyyy")))
+                .map(birthdate -> Period.between(birthdate, LocalDate.now()).getYears())
+                .anyMatch(age -> age <= 18);
+    }
+
+    private int calculateAge(String birthdate) {
+        LocalDate birthdateDate = LocalDate.parse(birthdate, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        LocalDate currentDate = LocalDate.now();
+        Period ageDifference = Period.between(birthdateDate, currentDate);
+        return ageDifference.getYears();
+    }
+
+    private List<String> getHouseholdMembers(Person child, List<Person> persons) {
+        List<String> householdMembers = new ArrayList<>();
+        persons.stream()
+                .filter(person -> !person.equals(child) && person.getAddress().equals(child.getAddress()))
+                .forEach(person -> householdMembers.add(person.getLastName()));
+        return householdMembers;
+    }
+
 
     @Override
     public List<PersonInfoDTO> findPersonInfoByFirstAndLastName(String firstName, String lastName) {
@@ -154,9 +215,9 @@ public class PersonRepository implements IPersonRepository {
     }
 
 
-
-    public List<String> getEmailsByCity(List<Person> persons, String city) {
+    public List<String> getEmailsByCity(String city) {
         List<String> emails = new ArrayList<>();
+        List<Person> persons = jsonData.getPersons();
 
         for (Person person : persons) {
             if (person.getCity().equalsIgnoreCase(city)) {
@@ -166,6 +227,8 @@ public class PersonRepository implements IPersonRepository {
 
         return emails;
     }
+
+
 
 
 }
