@@ -4,6 +4,7 @@ package oc.safetyalerts.controller;
 import oc.safetyalerts.model.Person;
 import oc.safetyalerts.repository.IPersonRepository;
 import oc.safetyalerts.repository.JsonData;
+import oc.safetyalerts.repository.PersonRepository;
 import oc.safetyalerts.service.FireStationsService;
 import oc.safetyalerts.service.PersonService;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -20,6 +23,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -40,7 +44,40 @@ class PersonControllerTest {
     private MockMvc mockMvc;
 
 
- /*   @Test
+    @Test
+    public void testAddPerson() {
+        // Mocking the service and repository
+        PersonService personService = mock(PersonService.class);
+        PersonRepository personRepository = mock(PersonRepository.class);
+
+        // Creating a sample person
+        Person person = new Person();
+        person.setFirstName("John");
+        person.setLastName("Boyd");
+        person.setAddress("1509 Culver St");
+        person.setCity("Culver");
+        person.setZip("97451");
+        person.setPhone("841-874-6512");
+        person.setEmail("jaboyd@email.com");
+
+        // Mocking the repository method
+        when(personRepository.save(person)).thenReturn(person);
+
+        // Creating the controller instance
+        PersonController personController = new PersonController(personService);
+
+        // Mocking the service method
+        when(personService.addPerson(person)).thenReturn(person);
+
+        // Calling the controller method
+        ResponseEntity<Person> responseEntity = personController.addPerson(person);
+
+        // Verifying the response
+        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+        assertEquals(person, responseEntity.getBody());
+    }
+
+ /* @Test
     public void testGetChildAlert() throws Exception {
         // Créer les données de test
         String address = "1509 Culver St";
