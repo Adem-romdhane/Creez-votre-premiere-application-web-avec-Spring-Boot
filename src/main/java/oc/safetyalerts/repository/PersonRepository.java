@@ -1,20 +1,16 @@
 package oc.safetyalerts.repository;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import oc.safetyalerts.model.FireStations;
 import oc.safetyalerts.model.MedicalRecords;
 import oc.safetyalerts.model.Person;
-import oc.safetyalerts.service.dto.ChildAlertDTO;
-import oc.safetyalerts.service.dto.PersonFireAddressDTO;
-import oc.safetyalerts.service.dto.PersonInfoDTO;
+import oc.safetyalerts.service.dto.*;
 import oc.safetyalerts.service.mapper.ChildAlertMapper;
 import oc.safetyalerts.service.mapper.PersonFireAddressMapper;
 import oc.safetyalerts.service.mapper.PersonInfoMapper;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,27 +19,23 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PersonRepository implements IPersonRepository {
 
+    private static final ObjectMapper objectMapper = new ObjectMapper();
     private final JsonData jsonData;
 
+    private final FireStationsRepository fireStationsRepository;
     private final PersonFireAddressMapper mapper2;
 
     private final ChildAlertMapper childAlertMapper;
     private final PersonInfoMapper mapper;
 
-    @Override
-    public List<Person> findByAddress(String address) {
-        return null;
-    }
+    List<Person> personList = new ArrayList<>();
+
 
     @Override
     public Person findByFirstNameAndLastName(String firstName, String lastName) {
         return null;
     }
 
-    @Override
-    public List<Person> findByAddressIn(List<String> addresses) {
-        return null;
-    }
 
     @Override
     public List<Person> findAll() {
@@ -52,8 +44,10 @@ public class PersonRepository implements IPersonRepository {
 
     @Override
     public Person save(Person person) {
-        return null;
+        personList.add(person);
+        return person;
     }
+
 
     @Override
     public Person delete(Person person) {
@@ -133,7 +127,7 @@ public class PersonRepository implements IPersonRepository {
                                     person.getLastName().equals(mr.getLastName()))
                             .collect(Collectors.toList());
                     childAlertDTO.setHouseMembers(medicalRecordsList);
-                    if (childAlertDTO.getAge() <=18){
+                    if (childAlertDTO.getAge() <= 18) {
                         childAlertDTOList.add(childAlertDTO);
                     }
 
@@ -144,21 +138,6 @@ public class PersonRepository implements IPersonRepository {
         return childAlertDTOList;
     }
 
-    private boolean isChild(Person person, List<MedicalRecords> medicalRecords) {
-        String personFullName = person.getLastName();
-        return medicalRecords.stream()
-                .filter(medicalRecord -> medicalRecord.getLastName().equals(personFullName))
-                .map(medicalRecord -> LocalDate.parse(medicalRecord.getBirthdate(), DateTimeFormatter.ofPattern("MM/dd/yyyy")))
-                .map(birthdate -> Period.between(birthdate, LocalDate.now()).getYears())
-                .anyMatch(age -> age <= 18);
-    }
-
-    private int calculateAge(String birthdate) {
-        LocalDate birthdateDate = LocalDate.parse(birthdate, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-        LocalDate currentDate = LocalDate.now();
-        Period ageDifference = Period.between(birthdateDate, currentDate);
-        return ageDifference.getYears();
-    }
 
     private List<String> getHouseholdMembers(Person child, List<Person> persons) {
         List<String> householdMembers = new ArrayList<>();
@@ -229,6 +208,34 @@ public class PersonRepository implements IPersonRepository {
     }
 
 
+    @Override
+    public List<FloodDTO> getFloodStations(List<Integer> stationNumbers) {
+        List<FloodDTO> floodDTOs = new ArrayList<>();
+        System.out.println(" ligne 293" + stationNumbers.get(0));
+        for (int stationNumber : stationNumbers) {
+            System.out.println(" ligne 293" + stationNumber);
+            List<FireStations> fireStations = fireStationsRepository.findByStationNumber(stationNumber);
 
-
+            for (FireStations fireStation : fireStations) {
+                String address = fireStation.getAddress();
+                List<MedicalRecords> medicalrecords = jsonData.getMedicalRecords();
+                List<Person> residents = jsonData.getPersons();
+                for (Person resident : residents) {
+                    if (address.equals(resident.getAddress()))
+                        for (MedicalRecords medicalRecords1 : medicalrecords) {
+                            FloodDTO dto = new FloodDTO();
+                            dto.setAddress(address);
+                            PersonInfoMedicalDTO personInfoMedicalDTO = new PersonInfoMedicalDTO();
+                            personInfoMedicalDTO.setMedicalRecords(medicalRecords1);
+                            personInfoMedicalDTO.setPhone(resident.getPhone());
+                            dto.setPersonInfoMedicalDTOS(List.of(personInfoMedicalDTO));
+                            floodDTOs.add(dto);
+                        }
+                }
+            }
+        }
+        return floodDTOs;
+    }
 }
+
+

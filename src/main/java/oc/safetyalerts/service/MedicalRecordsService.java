@@ -21,9 +21,6 @@ public class MedicalRecordsService {
         return medicalRecordsRepository.save(medicalRecords);
     }
 
-    public MedicalRecords getById(Long id) {
-        return medicalRecordsRepository.findById(id).orElse(null);
-    }
 
     public MedicalRecords updateMedical(MedicalRecords medicalRecords) {
         MedicalRecords updateMedical = new MedicalRecords();
@@ -36,11 +33,6 @@ public class MedicalRecordsService {
         return medicalRecordsRepository.save(updateMedical);
     }
 
-    public void DeleteById( Long id){
-        medicalRecordsRepository.deleteById(id);
-    }
 
-    public MedicalRecords findByFirstNameAndLastName(String firstName, String lastName) {
-        return medicalRecordsRepository.findByFirstNameAndLastName(firstName,lastName);
-    }
+
 }

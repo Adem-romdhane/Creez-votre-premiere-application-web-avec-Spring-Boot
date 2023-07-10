@@ -1,12 +1,12 @@
-package oc.safetyalerts.service.dto;
+    package oc.safetyalerts.service.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+    import lombok.AllArgsConstructor;
+    import lombok.Data;
+    import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class PersonPhoneDTO {
-    String phone;
-}
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public class PersonPhoneDTO {
+        String phone;
+    }

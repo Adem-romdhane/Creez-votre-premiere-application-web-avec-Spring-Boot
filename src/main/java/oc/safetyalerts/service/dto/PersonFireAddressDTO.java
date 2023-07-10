@@ -19,4 +19,10 @@ public class PersonFireAddressDTO {
     private int station;
 
 
+    public PersonFireAddressDTO(String firstName, String lastName, String address) {
+        this.firstName=firstName;
+        this.lastName= lastName;
+    }
+
+
 }

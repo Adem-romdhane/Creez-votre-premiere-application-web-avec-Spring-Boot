@@ -1,14 +1,9 @@
 package oc.safetyalerts.service;
 
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import oc.safetyalerts.model.Person;
 import oc.safetyalerts.repository.IPersonRepository;
-import oc.safetyalerts.service.dto.ChildAlertDTO;
-import oc.safetyalerts.service.dto.PersonFireAddressDTO;
-import oc.safetyalerts.service.dto.PersonInfoDTO;
-import oc.safetyalerts.service.dto.PersonStationDTO;
-import oc.safetyalerts.service.mapper.ChildAlertMapper;
-import oc.safetyalerts.service.mapper.PersonCityMapper;
+import oc.safetyalerts.service.dto.*;
 import oc.safetyalerts.service.mapper.PersonStationMapper;
 import org.springframework.stereotype.Service;
 
@@ -16,42 +11,33 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+@Slf4j
 public class PersonService {
+
 
     private final IPersonRepository personRepository;
 
     private final PersonStationMapper mapper;
 
-    private final PersonCityMapper cityMapper;
 
-    private final ChildAlertMapper childAlertMapper;
-
+    public PersonService(IPersonRepository personRepository,PersonStationMapper mapper) {
+        this.personRepository = personRepository;
+       this.mapper=mapper;
+    }
 
 
     public List<Person> getAll() {
+        log.info("Find all persons");
         return personRepository.findAll();
     }
 
-    public List<Person> getPersonsByAddress(String address) {
-        return personRepository.findByAddress(address);
-    }
 
-    public Person addPerson(Person person) {
-        return personRepository.save(person);
-    }
 
-   /* public Person getById(Long id) {
-        return personRepository.findById(id).orElse(null);
-    }*/
 
     public void deletePerson(Person person) {
         personRepository.delete(person);
     }
 
-    public Person getByFirstNameAndLastName(String firstName, String lastName) {
-        return personRepository.findByFirstNameAndLastName(firstName, lastName);
-    }
 
     public Person updatePerson(Person person) {
         Person updatePerson = new Person();
@@ -67,11 +53,9 @@ public class PersonService {
 
     }
 
-  /*  public List<Person> findByAddressIn(List<String> addresses) {
-        return IPersonRepository.findByAddressIn(addresses);
-    }*/
 
 
+//test Ok
     public List<PersonStationDTO> findByStationNumber(int stationNumber) {
         List<Person> personByStationNumber = personRepository.findByStationNumber(stationNumber);
         return personByStationNumber.stream()
@@ -99,6 +83,14 @@ public class PersonService {
 
     public List<ChildAlertDTO> getChildrenByAddress(String address) {
         return personRepository.getChildAlert(address);
+    }
+
+    public List<FloodDTO> getFloodStations(List<Integer> stationNumbers) {
+        return personRepository.getFloodStations(stationNumbers);
+    }
+
+    public Person addPerson(Person person) {
+        return personRepository.save(person);
     }
 }
 

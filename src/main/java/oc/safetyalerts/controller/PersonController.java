@@ -3,6 +3,9 @@ package oc.safetyalerts.controller;
 import lombok.RequiredArgsConstructor;
 import oc.safetyalerts.model.Person;
 import oc.safetyalerts.service.PersonService;
+import oc.safetyalerts.service.dto.ChildAlertDTO;
+import oc.safetyalerts.service.dto.PersonInfoDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,19 +18,37 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PersonController {
 
+    @Autowired
+    PersonService personService;
 
-    private final PersonService personService;
+    private List<Person> personList = new ArrayList<Person>(); // Liste de personnes (simulant une base de données)
 
-    private List<Person> persons = new ArrayList<>();
-
-    @PostMapping
-    public ResponseEntity<Person> addPerson(@RequestBody Person person) {
-        return new ResponseEntity<>(personService.addPerson(person), HttpStatus.CREATED);
+    public PersonController(PersonService personService) {
+        this.personService=personService;
     }
 
-    @GetMapping("/address/{address}")
-    public ResponseEntity<List<Person>> getPersonByAddress(@PathVariable String address) {
-        return new ResponseEntity<>(personService.getPersonsByAddress(address), HttpStatus.OK);
+    // http://localhost:8080/v1/api/person/communityEmail?city=Culver
+    @GetMapping("/communityEmail")
+    public List<String> getEmailsByCity(@RequestParam("city") String city) {
+        return personService.getEmailsByCity(city);
+    }
+
+    //http://localhost:8080/v1/api/person/childAlert?address=1509%20Culver%20St
+    @GetMapping("/childAlert")
+    public List<ChildAlertDTO> getChildAlert(@RequestParam("address") String address) {
+        return personService.getChildrenByAddress(address);
+    }
+
+    //http://localhost:8080/v1/api/person/personInfo?firstName=Felicia&lastName=Boyd
+    @GetMapping("personInfo")
+    public List<PersonInfoDTO> getByFirstAndLastName(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName){
+        return personService.findPersonInfoByFirstAndLastName(firstName,lastName);
+    }
+
+
+    @PostMapping("/add")
+    public ResponseEntity<Person> addPerson(@RequestBody Person person) {
+        return new ResponseEntity<>(personService.addPerson(person), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -35,35 +56,39 @@ public class PersonController {
         return new ResponseEntity<>(personService.getAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Person> findPersonById(@PathVariable Long id) {
-     //   return new ResponseEntity<>(personService.getById(id), HttpStatus.OK);
-        return null;
-    }
 
-    @GetMapping("/getPersonByName")
-    public ResponseEntity<Person> findPersonByFirstAndLastName(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
-        return new ResponseEntity<>(personService.getByFirstNameAndLastName(firstName, lastName), HttpStatus.OK);
-    }
+    @PutMapping("/{firstName}/{lastName}")
+    public ResponseEntity<String> updatePerson(
+            @PathVariable("firstName") String firstName,
+            @PathVariable("lastName") String lastName,
+            @RequestBody Person updatedPerson) {
 
-   /* @PutMapping("/{id}")
-    public ResponseEntity<Person> updatePerson(@PathVariable Long id, @RequestBody Person person) {
-        Person personFinded = personService.getById(id);
-        if (personFinded == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        personService.updatePerson(personFinded);
-        return new ResponseEntity<>(personService.updatePerson(person), HttpStatus.CREATED);
-    }*/
-
-  /* @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePersonById(@PathVariable Long id) {
-        Person personFinded = personService.getById(id);
-        if (personFinded == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        for (Person person : personList) {
+            if (person.getFirstName().equals(firstName) && person.getLastName().equals(lastName)) {
+                person.setAddress(updatedPerson.getAddress());
+                person.setCity(updatedPerson.getCity());
+                person.setZip(updatedPerson.getZip());
+                person.setPhone(updatedPerson.getPhone());
+                person.setEmail(updatedPerson.getEmail());
+                return ResponseEntity.ok("Personne mise à jour avec succès");
+            }
         }
 
-        personService.deletePerson(personFinded);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }*/
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{firstName}/{lastName}")
+    public ResponseEntity<String> deletePerson(
+            @PathVariable("firstName") String firstName,
+            @PathVariable("lastName") String lastName) {
+
+        for (Person person : personList) {
+            if (person.getFirstName().equals(firstName) && person.getLastName().equals(lastName)) {
+                personList.remove(person);
+                return ResponseEntity.ok("Personne supprimée avec succès");
+            }
+        }
+
+        return ResponseEntity.notFound().build();
+    }
 }

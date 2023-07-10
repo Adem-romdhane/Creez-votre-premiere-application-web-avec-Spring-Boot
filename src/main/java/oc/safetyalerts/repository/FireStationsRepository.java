@@ -4,33 +4,38 @@ import lombok.RequiredArgsConstructor;
 import oc.safetyalerts.model.FireStations;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
+
 @RequiredArgsConstructor
 public class FireStationsRepository implements IFireStationsRepository {
 
     private final JsonData jsonData;
+
+    private List<FireStations> fireStations = new ArrayList<FireStations>();
+
     @Override
     public List<FireStations> findByStation(int stationNumber) {
         return null;
     }
 
     @Override
-    public List<FireStations> findByAddress(String address) {
+    public FireStations findByAddress(String address) {
         return null;
     }
+
 
     @Override
     public List<FireStations> findByStationNumber(int stationNumber) {
-        return null;
+        return jsonData.getFirestations()
+                .stream()
+                .filter(station -> station.getStation() == stationNumber)
+                .collect(Collectors.toList());
     }
 
-    @Override
-    public List<FireStations> getInfoStation(int stationNumber) {
-        return null;
-    }
 
     @Override
     public List<FireStations> findAll() {
@@ -38,17 +43,15 @@ public class FireStationsRepository implements IFireStationsRepository {
     }
 
     @Override
-    public FireStations save(FireStations fireStations) {
-        return null;
+    public String save(FireStations stations) {
+        fireStations.add(stations);
+        return "successfully added";
     }
 
-    @Override
-    public Optional<FireStations> findById(Long id) {
-        return Optional.empty();
-    }
 
     @Override
-    public void deleteById(Long id) {
-
+    public void deleteFireStationsByAddress(String address) {
+        List<FireStations> fireStations = jsonData.getFirestations();
+        fireStations.removeIf(f -> f.getAddress().equals(address));
     }
 }

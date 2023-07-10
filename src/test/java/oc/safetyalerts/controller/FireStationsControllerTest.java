@@ -1,142 +1,98 @@
 package oc.safetyalerts.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import oc.safetyalerts.model.FireStations;
+import oc.safetyalerts.repository.FireStationsRepository;
 import oc.safetyalerts.repository.IFireStationsRepository;
+import oc.safetyalerts.repository.JsonData;
 import oc.safetyalerts.service.FireStationsService;
-import org.junit.jupiter.api.Disabled;
+import oc.safetyalerts.service.PersonService;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
+@RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 class FireStationsControllerTest {
 
+    @Autowired
+    private FireStationsController fireStationsController;
     @Mock
     private FireStationsService fireStationsService;
-
     @MockBean
+    private PersonService personService;
+    @Mock
     private IFireStationsRepository fireStationsRepository;
 
-    @InjectMocks
-    private FireStationsController fireStationsController;
+    @Mock
+    private JsonData jsonData;
 
-    @Autowired
-    private ObjectMapper objectMapper;
     @Autowired
     private MockMvc mockMvc;
 
-    @Test // test  @GetMapping(value = "/persons/all") from personController
-    public void testGetAllFireStations() throws Exception {
-        mockMvc.perform(get("/v1/api/firestations")).
-                andExpect(status().isOk());
-    }
 
     @Test
-    public void testAddFireStation() throws Exception {
-        FireStations fireStation = new FireStations();
-        fireStation.setId(null);
-        fireStation.setAddress("123 Main St");
-        fireStation.setStation(1);
+    public void testFindAllFireStations() {
+        // Mocking the service and repository
+        FireStationsService fireStationsService = mock(FireStationsService.class);
+        FireStationsRepository fireStationsRepository = mock(FireStationsRepository.class);
 
-        when(fireStationsService.savedFireStation(fireStation)).thenReturn(fireStation);
-        assertEquals(fireStation, fireStationsService.savedFireStation(fireStation));
+        // Creating sample data
+        List<FireStations> expectedFireStations = new ArrayList<>();
+        expectedFireStations.add(new FireStations());
+
+        // Mocking the repository method
+        when(fireStationsRepository.findAll()).thenReturn(expectedFireStations);
+
+        // Creating the controller instance
+        FireStationsController fireStationsController = new FireStationsController(fireStationsService);
+
+        // Mocking the service method
+        when(fireStationsService.getAll()).thenReturn(expectedFireStations);
+
+        // Calling the controller method
+        ResponseEntity<List<FireStations>> responseEntity = fireStationsController.findAllFireStations();
+
+        // Verifying the response
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedFireStations, responseEntity.getBody());
     }
 
-   /* @Test
-
-    void getById() throws Exception {
-        FireStations fireStations = new FireStations();
-        fireStations.setId(1L);
-        fireStations.setAddress("rue de verdun");
-
-        when(fireStationsService.getById(anyLong())).thenReturn(fireStations);
-      //  mockMvc.perform(get())
-           //     .andExpect(status().isOk());
-    }*/
 
     @Test
-    @Disabled
-    public void DeleteFireStationById () throws Exception {
-        Long stationId = 1L;
+    public void testgetPhoneByStationNumber()throws Exception{
+        // Prepare mock data
+        int stationNumber=1;
+        List<String> phoneList=asList("123-456-7890","987-654-3210");
 
-        when(fireStationsService.getById(stationId)).thenReturn(null);
+        // Configure mock service method
+        when(personService.findPhoneByStationNumber(eq(stationNumber))).thenReturn(phoneList);
 
-        mockMvc.perform(delete("/v1/api/firestations/{id}", stationId))
-                .andExpect(status().isNotFound());
+        // Perform the GET request
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/api/firestations/phoneAlert")
+                        .param("stationNumber",String.valueOf(stationNumber)))
+                .andExpect(status().isOk());
 
-        verify(fireStationsService, never()).deleteFireStationsById(stationId);
+
+        // Verify mock interactions
+        verify(personService,times(1)).findPhoneByStationNumber(eq(stationNumber));
     }
 
-    @Test
-    void saveFireStationTest() {
-        FireStations fireStations = new FireStations();
-        fireStations.setId(null);
-        fireStations.setStation(1);
-        fireStations.setAddress("rue due verdun");
-        when(fireStationsService.savedFireStation(fireStations)).thenReturn(fireStations);
-        assertEquals(fireStations, fireStationsService.savedFireStation(fireStations));
-    }
-
-    @Test
-    void testDeleteStationById() {
-        // Définir l'ID fictif de la fire station à supprimer
-        Long fireStationId = 1L;
-
-        // Créer un objet FireStations fictif pour les tests
-        FireStations mockFireStations = new FireStations();
-        mockFireStations.setId(fireStationId);
-        mockFireStations.setAddress("Station 1");
-
-        // Configurer le comportement du service pour retourner l'objet FireStations fictif
-        when(fireStationsService.getById(fireStationId)).thenReturn(mockFireStations);
-
-        // Appeler la méthode deleteStationById du controller
-        ResponseEntity<Void> responseEntity = fireStationsController.deleteStationById(fireStationId);
-
-        // Vérifier que la méthode getById du service a été appelée avec le bon ID
-        verify(fireStationsService).getById(fireStationId);
-
-        // Vérifier que la méthode deleteFireStationsById du service a été appelée avec le bon ID
-        verify(fireStationsService).deleteFireStationsById(fireStationId);
-
-        // Vérifier que la réponse renvoie un code de statut HTTP NO_CONTENT (204)
-        assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
-    }
-
-    @Test
-    void testSaveFireStation() throws Exception {
-        // Créer un objet FireStations fictif pour les tests
-        FireStations mockFireStations = new FireStations();
-        mockFireStations.setId(1L);
-        mockFireStations.setAddress("Station 1");
-
-        // Configurer le comportement du service pour retourner l'objet FireStations fictif
-        when(fireStationsService.savedFireStation(mockFireStations)).thenReturn(mockFireStations);
-
-        // Convertir l'objet FireStations en JSON
-        ObjectMapper objectMapper = new ObjectMapper();
-        String fireStationsJson = objectMapper.writeValueAsString(mockFireStations);
-
-        // Effectuer la requête POST en envoyant l'objet FireStations JSON
-        mockMvc.perform(post("/v1/api/firestations")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(fireStationsJson))
-                .andExpect(status().isCreated());
-    }
 }

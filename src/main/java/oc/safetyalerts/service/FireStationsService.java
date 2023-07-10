@@ -3,11 +3,13 @@ package oc.safetyalerts.service;
 import lombok.RequiredArgsConstructor;
 import oc.safetyalerts.model.FireStations;
 import oc.safetyalerts.repository.IFireStationsRepository;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Component
 @RequiredArgsConstructor
 public class FireStationsService {
 
@@ -20,20 +22,14 @@ public class FireStationsService {
         return fireStationsRepository.findAll();
     }
 
-    public FireStations savedFireStation(FireStations fireStations) {
+    public String addFireStation(FireStations fireStations) {
         return fireStationsRepository.save(fireStations);
     }
 
-    public FireStations getById(Long id) {
-        return fireStationsRepository.findById(id).orElse(null);
-    }
-
-    public void deleteFireStationsById(Long id) {
-        fireStationsRepository.deleteById(id);
-    }
 
 
-    public FireStations updateFirestation(FireStations fireStations) {
+
+    public  String updateFirestation(FireStations fireStations) {
         FireStations updateFirestation = new FireStations();
         updateFirestation.setAddress(fireStations.getAddress());
         updateFirestation.setStation(fireStations.getStation());
@@ -42,12 +38,17 @@ public class FireStationsService {
     }
 
 
-    public FireStations findByStationNumber(int stationNumber) {
-        return (FireStations) fireStationsRepository.getInfoStation(stationNumber);
+
+
+
+    public FireStations findByAddress(String address) {
+        FireStations fireStations = fireStationsRepository.findByAddress(address);
+        return fireStations;
     }
 
-
-
+    public void deleteFireStationsByAddress(String address) {
+        fireStationsRepository.deleteFireStationsByAddress(address);
+    }
 }
 
 

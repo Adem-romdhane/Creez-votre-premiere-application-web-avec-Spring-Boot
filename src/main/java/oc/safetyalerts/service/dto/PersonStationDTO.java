@@ -19,6 +19,12 @@ public class PersonStationDTO {
     private String address;
     private String phone;
 
+    public PersonStationDTO(String firstName, String lastName, String address) {
+        this.firstName= firstName;
+        this.lastName= lastName;
+        this.address = address;
+    }
+
     public void setIsAdult(boolean isAdult) {
 
     }

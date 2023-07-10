@@ -3,44 +3,41 @@ package oc.safetyalerts.service;
 import oc.safetyalerts.model.MedicalRecords;
 import oc.safetyalerts.repository.IMedicalRecordsRepository;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
-import static org.mockito.Mockito.verify;
+import java.util.Arrays;
+import java.util.List;
 
-@RunWith(SpringRunner.class)
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+
 @SpringBootTest
-@AutoConfigureMockMvc
 class MedicalRecordsServiceTest {
-    @Mock
+    @MockBean
     private IMedicalRecordsRepository medicalRecordsRepository;
 
-    @InjectMocks
+    @Autowired
     private MedicalRecordsService medicalRecordsService;
 
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
+
     @Test
-    void testDeleteById() {
-        // Créer un objet MedicalRecords fictif pour les tests
-        MedicalRecords mockMedicalRecords = new MedicalRecords();
-        mockMedicalRecords.setId(1L);
-        mockMedicalRecords.setFirstName("John");
+    void testFindAll(){
+        MedicalRecords medicalRecords1 = new MedicalRecords("John", "Boyd", "03/06/1984", Arrays.asList("aznol:350mg"), Arrays.asList("hydrapermazol:100mg"));
+        MedicalRecords medicalRecords2 = new MedicalRecords("jack", "Boaaa", "03/06/1984", Arrays.asList("aznol:350mg"), Arrays.asList("hydrapermazol:100mg"));
+        List<MedicalRecords> medicalRecordsList = Arrays.asList(medicalRecords1,medicalRecords2);
 
-        // Définir l'ID fictif de l'objet MedicalRecords à supprimer
-        Long medicalRecordsId = 1L;
+        when(medicalRecordsRepository.findAll()).thenReturn(medicalRecordsList);
 
-        // Appeler la méthode DeleteById du service
-        medicalRecordsService.DeleteById(medicalRecordsId);
+        List<MedicalRecords> all = medicalRecordsService.getAll();
 
-        // Vérifier que la méthode deleteById du repository a été appelée avec le bon ID
-        verify(medicalRecordsRepository).deleteById(medicalRecordsId);
+        assertEquals(2,all.size());
+
     }
 }

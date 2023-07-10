@@ -3,6 +3,9 @@ package oc.safetyalerts.controller;
 import lombok.RequiredArgsConstructor;
 import oc.safetyalerts.model.MedicalRecords;
 import oc.safetyalerts.service.MedicalRecordsService;
+import oc.safetyalerts.service.PersonService;
+import oc.safetyalerts.service.dto.PersonFireAddressDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +18,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MedicalRecordsController {
 
+    @Autowired
+    PersonService personService;
 
-    private final MedicalRecordsService medicalRecordsService;
+
+    MedicalRecordsService medicalRecordsService;
     List<MedicalRecords> medicalRecords = new ArrayList<>();
 
     @GetMapping
@@ -24,30 +30,18 @@ public class MedicalRecordsController {
         return new ResponseEntity<>(medicalRecordsService.getAll(), HttpStatus.OK);
     }
 
+    //http://localhost:8080/v1/api/medicalrecord/fire?address=951%20LoneTree%20Rd
+    @GetMapping("/fire")
+    public List<PersonFireAddressDTO> getPersonByAddress(@RequestParam("address") String address) {
+        return personService.getPeopleByAddress(address);
+    }
+
     @PostMapping
     public ResponseEntity<MedicalRecords> addMedicalRecord(@RequestBody MedicalRecords medicalRecords) {
         return new ResponseEntity<>(medicalRecordsService.addMedicalRecord(medicalRecords), HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<MedicalRecords> updateMedicalRecords(@PathVariable Long id, @RequestBody MedicalRecords medicalRecords) {
-        MedicalRecords medicalRecordsFinded = medicalRecordsService.getById(id);
-        if (medicalRecordsFinded == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(medicalRecordsService.updateMedical(medicalRecords), HttpStatus.CREATED);
-
-    }
 
 
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteMedicalRecords(@PathVariable Long id) {
-        MedicalRecords medicalRecordsFinded = medicalRecordsService.getById(id);
-        if (medicalRecordsFinded == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        medicalRecordsService.DeleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
 
 }
