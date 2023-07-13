@@ -9,16 +9,15 @@ import java.util.List;
 @Repository
 @ComponentScan
 public interface IFireStationsRepository {
-    List<FireStations> findByStation(int stationNumber);
-    FireStations findByAddress(String address);
+    List<FireStations> findByAddress(String address);
 
     List<FireStations> findByStationNumber(int stationNumber);
 
 
     List<FireStations> findAll();
 
-    String save(FireStations fireStations);
+    FireStations save(FireStations fireStations);
 
+    void delete (FireStations fireStations);
 
-    void deleteFireStationsByAddress(String address);
 }

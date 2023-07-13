@@ -9,24 +9,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-
 @RequiredArgsConstructor
 public class FireStationsRepository implements IFireStationsRepository {
 
     private final JsonData jsonData;
 
-    private List<FireStations> fireStations = new ArrayList<FireStations>();
+    private List<FireStations> fireStationsList = new ArrayList<FireStations>();
+
 
     @Override
-    public List<FireStations> findByStation(int stationNumber) {
+    public List<FireStations> findByAddress(String address) {
         return null;
     }
-
-    @Override
-    public FireStations findByAddress(String address) {
-        return null;
-    }
-
 
     @Override
     public List<FireStations> findByStationNumber(int stationNumber) {
@@ -43,15 +37,16 @@ public class FireStationsRepository implements IFireStationsRepository {
     }
 
     @Override
-    public String save(FireStations stations) {
-        fireStations.add(stations);
-        return "successfully added";
+    public FireStations save(FireStations stations) {
+        fireStationsList.add(stations);
+        return stations;
     }
 
 
-    @Override
-    public void deleteFireStationsByAddress(String address) {
-        List<FireStations> fireStations = jsonData.getFirestations();
-        fireStations.removeIf(f -> f.getAddress().equals(address));
+
+
+
+    public void delete(FireStations fireStations){
+        fireStationsList.remove(fireStations);
     }
 }

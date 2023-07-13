@@ -34,9 +34,11 @@ public class FireStationsController {
     }
 
     @PostMapping("/add")
-    public String addFireStations(@RequestBody FireStations fireStations){
-        return fireStationsService.addFireStation(fireStations);
+    public ResponseEntity<FireStations> addFireStations(@RequestBody FireStations fireStations){
+        return new ResponseEntity<>(fireStationsService.addFireStations(fireStations),HttpStatus.CREATED);
     }
+
+
 
     //http://localhost:8080/v1/api/firestations/phoneAlert?stationNumber=2
     @GetMapping("/phoneAlert")
@@ -59,20 +61,19 @@ public class FireStationsController {
     }
 
 
-
-
-   /* @PutMapping("{address}")
-    public ResponseEntity<FireStations> updateFireStations(@PathVariable String address, @RequestBody FireStations fireStations){
+    @PutMapping("{address}")
+    public ResponseEntity<FireStations> updateFireStations(@PathVariable String address, @RequestBody FireStations fireStations) {
         FireStations fireStationsFinded = fireStationsService.findByAddress(address);
-        if (fireStationsFinded == null){
+        if (fireStationsFinded == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         fireStationsFinded.setStation(fireStations.getStation());
         fireStationsFinded.setAddress(fireStations.getAddress());
-        fireStationsService.savedFireStation(fireStationsFinded);
-        return new ResponseEntity<>(fireStationsService.updateFirestation(fireStations), HttpStatus.OK);
+        fireStationsService.updateFirestation(fireStationsFinded);
+        return new ResponseEntity<>(fireStationsFinded, HttpStatus.OK);
+    }
 
-    }*/
+
 
     @DeleteMapping("/{address}")
     public ResponseEntity<Void > deleteStationByAddress(@PathVariable String address){

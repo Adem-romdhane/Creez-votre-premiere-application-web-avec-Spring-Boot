@@ -18,4 +18,6 @@ public class ChildAlertDTO {
     int age;
     List<MedicalRecords> houseMembers;
 
+    public <T> ChildAlertDTO(String tenley, String boyd, int i, List<T> asList, ChildAlertDTO childAlertDTO) {
+    }
 }

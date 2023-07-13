@@ -5,6 +5,7 @@ import oc.safetyalerts.model.Person;
 import oc.safetyalerts.repository.IPersonRepository;
 import oc.safetyalerts.service.dto.*;
 import oc.safetyalerts.service.mapper.PersonStationMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,24 +15,24 @@ import java.util.stream.Collectors;
 @Slf4j
 public class PersonService {
 
-
+    @Autowired
     private final IPersonRepository personRepository;
+
 
     private final PersonStationMapper mapper;
 
 
-    public PersonService(IPersonRepository personRepository,PersonStationMapper mapper) {
+    public PersonService(IPersonRepository personRepository, PersonStationMapper mapper) {
         this.personRepository = personRepository;
-       this.mapper=mapper;
+        this.mapper = mapper;
     }
+
 
 
     public List<Person> getAll() {
         log.info("Find all persons");
         return personRepository.findAll();
     }
-
-
 
 
     public void deletePerson(Person person) {
@@ -54,8 +55,7 @@ public class PersonService {
     }
 
 
-
-//test Ok
+    //test Ok
     public List<PersonStationDTO> findByStationNumber(int stationNumber) {
         List<Person> personByStationNumber = personRepository.findByStationNumber(stationNumber);
         return personByStationNumber.stream()

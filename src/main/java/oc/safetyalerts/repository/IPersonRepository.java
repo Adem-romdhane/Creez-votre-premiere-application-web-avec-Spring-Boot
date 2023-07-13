@@ -20,7 +20,7 @@ public interface IPersonRepository {
 
     Person save(Person person);
 
-    Person delete(Person person);
+    void delete(Person person);
 
     List<Person> findByStationNumber(int stationNumber);
 

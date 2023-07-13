@@ -21,9 +21,14 @@ public class MedicalRecordsController {
     @Autowired
     PersonService personService;
 
-
+    @Autowired
     MedicalRecordsService medicalRecordsService;
-    List<MedicalRecords> medicalRecords = new ArrayList<>();
+
+    List<MedicalRecords> medicalRecordsList = new ArrayList<>();
+
+    public MedicalRecordsController(MedicalRecordsService medicalRecordsService) {
+        this.medicalRecordsService = medicalRecordsService;
+    }
 
     @GetMapping
     public ResponseEntity<List<MedicalRecords>> getAllMedicalRecords() {
@@ -36,12 +41,34 @@ public class MedicalRecordsController {
         return personService.getPeopleByAddress(address);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<MedicalRecords> addMedicalRecord(@RequestBody MedicalRecords medicalRecords) {
         return new ResponseEntity<>(medicalRecordsService.addMedicalRecord(medicalRecords), HttpStatus.OK);
     }
 
+    @PutMapping("{firstName}/{lastName}")
+    public ResponseEntity<MedicalRecords> updateMedicalRecord(
+            @PathVariable("lastName") String lastName,
+            @PathVariable("firstName") String firstName,
+            @RequestBody MedicalRecords updateRecords
+    ) {
+        for (MedicalRecords medicalRecords : medicalRecordsList) {
+            if (medicalRecords.getFirstName().equals(firstName) && medicalRecords.getLastName().equals(lastName)) {
+                medicalRecords.setFirstName(updateRecords.getFirstName());
+                medicalRecords.setLastName(updateRecords.getLastName());
+                medicalRecords.setBirthdate(updateRecords.getBirthdate());
+                medicalRecords.setMedications(updateRecords.getMedications());
+                medicalRecords.setAllergies(updateRecords.getAllergies());
+                medicalRecordsService.updateMedical(medicalRecords); // Mettre à jour l'enregistrement médical dans le service
+                return ResponseEntity.ok(medicalRecords); // Retourner l'enregistrement médical mis à jour
+            }
+        }
 
-
+        return ResponseEntity.notFound().build(); // Retourner une réponse 404 si l'enregistrement médical n'est pas trouvé
+    }
 
 }
+
+
+
+

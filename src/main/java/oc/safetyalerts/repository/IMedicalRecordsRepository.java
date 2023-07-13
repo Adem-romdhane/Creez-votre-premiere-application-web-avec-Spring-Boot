@@ -11,9 +11,10 @@ public interface IMedicalRecordsRepository {
 
     MedicalRecords save(MedicalRecords updateMedical);
 
-    void deleteById(Long id);
 
     Optional<MedicalRecords> findById(Long id);
 
     List<MedicalRecords> findAll();
+
+    void delete(MedicalRecords medicalRecord);
 }

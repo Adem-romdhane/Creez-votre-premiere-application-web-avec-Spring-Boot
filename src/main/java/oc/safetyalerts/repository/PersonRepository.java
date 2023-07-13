@@ -50,8 +50,8 @@ public class PersonRepository implements IPersonRepository {
 
 
     @Override
-    public Person delete(Person person) {
-        return null;
+    public void delete(Person person) {
+        personList.remove(person);
     }
 
     @Override
@@ -94,20 +94,6 @@ public class PersonRepository implements IPersonRepository {
     }
 
 
- /*   public List<ChildAlertDTO> getChildAlert(String address) {
-        List<ChildAlertDTO> persons = new ArrayList<>();
-        List<ChildAlertDTO> childAlertDTOList = new ArrayList<>();
-        List<MedicalRecords> medicalRecords = jsonData.getMedicalRecords();
-        for (MedicalRecords medicalRecords1 : medicalRecords) {
-            for (ChildAlertDTO child : persons) {
-                if (child.getAge() <= 18) {
-                    childAlertDTOList.add(child);
-                }
-            }
-        }
-        return childAlertDTOList;
-    }
-*/
 
     public List<ChildAlertDTO> getChildAlert(String address) {
         List<ChildAlertDTO> childAlertDTOList = new ArrayList<>();
