@@ -35,6 +35,14 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>4.10.0</version>
+		</dependency>
+
+
 		<!--<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
@@ -86,6 +94,14 @@
 			<artifactId>codegen-utils</artifactId>
 			<version>5.0.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.infinispan</groupId>
+			<artifactId>infinispan-core</artifactId>
+			<version>14.0.12.Final</version>
+			<scope>test</scope>
+		</dependency>
+
 
 	</dependencies>
 
@@ -169,15 +185,23 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.10</version>
+				<configuration>
+					<excludes>
+						<exclude>oc/safetyalerts/model/*</exclude>
+						<exclude>oc/safetyalerts/repository/*</exclude>
+						<exclude>oc/safetyalerts/service/dto/*</exclude>
+						<exclude>oc/safetyalerts/service/mapper/*</exclude>
+					</excludes>
+				</configuration>
 				<executions>
 					<execution>
+						<id>prepare-agent</id>
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
 					</execution>
 					<execution>
 						<id>report</id>
-						<phase>test</phase>
 						<goals>
 							<goal>report</goal>
 						</goals>
