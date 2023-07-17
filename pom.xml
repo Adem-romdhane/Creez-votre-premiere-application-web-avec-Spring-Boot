@@ -102,6 +102,17 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-scala_2.11</artifactId>
+			<version>2.15.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>0.8.10</version>
+		</dependency>
 
 	</dependencies>
 
@@ -186,12 +197,7 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.10</version>
 				<configuration>
-					<excludes>
-						<exclude>oc/safetyalerts/model/*</exclude>
-						<exclude>oc/safetyalerts/repository/*</exclude>
-						<exclude>oc/safetyalerts/service/dto/*</exclude>
-						<exclude>oc/safetyalerts/service/mapper/*</exclude>
-					</excludes>
+					<destFile>${project.build.directory}/jacoco.exec</destFile>
 				</configuration>
 				<executions>
 					<execution>
@@ -199,28 +205,22 @@
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
+						<configuration>
+							<propertyName>jacoco-agent.argLine</propertyName>
+						</configuration>
 					</execution>
 					<execution>
 						<id>report</id>
+						<phase>test</phase>
 						<goals>
 							<goal>report</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
+
+
 		</plugins>
 	</build>
-	<reporting>
-		<plugins>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>2.18</version>
-			</plugin>
-
-
-		</plugins>
-
-	</reporting>
 </project>
