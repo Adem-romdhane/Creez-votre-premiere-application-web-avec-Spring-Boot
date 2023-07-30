@@ -57,6 +57,8 @@ public class PersonService {
 
     //test Ok
     public List<PersonStationDTO> findByStationNumber(int stationNumber) {
+        log.info("Finded by station number");
+
         List<Person> personByStationNumber = personRepository.findByStationNumber(stationNumber);
         return personByStationNumber.stream()
                 .map(mapper::toDto)
@@ -69,23 +71,28 @@ public class PersonService {
     }
 
     public List<String> findPhoneByStationNumber(int stationNumber) {
+        log.info("Phone founded by station number");
         return personRepository.findPhoneByStationNumber(stationNumber);
     }
 
 
     public List<PersonInfoDTO> findPersonInfoByFirstAndLastName(String firstName, String lastName) {
+        log.info("Person founded by first & lastname");
         return personRepository.findPersonInfoByFirstAndLastName(firstName, lastName);
     }
 
     public List<PersonFireAddressDTO> getPeopleByAddress(String address) {
+        log.info("personne obtenu par adresse ");
         return personRepository.getPeopleByAddress(address);
     }
 
     public List<ChildAlertDTO> getChildrenByAddress(String address) {
+        log.info("get children by address");
         return personRepository.getChildAlert(address);
     }
 
     public List<FloodDTO> getFloodStations(List<Integer> stationNumbers) {
+        log.info("get station list by number station");
         return personRepository.getFloodStations(stationNumbers);
     }
 

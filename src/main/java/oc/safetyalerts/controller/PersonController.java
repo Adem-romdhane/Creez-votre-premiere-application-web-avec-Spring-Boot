@@ -57,7 +57,7 @@ public class PersonController {
     }
 
 
-    @PutMapping("/{firstName}/{lastName}")
+  /*  @PutMapping("/{firstName}/{lastName}")
     public ResponseEntity<String> updatePerson(
             @PathVariable("firstName") String firstName,
             @PathVariable("lastName") String lastName,
@@ -76,8 +76,8 @@ public class PersonController {
 
         return ResponseEntity.notFound().build();
     }
-
-    @DeleteMapping("/{firstName}/{lastName}")
+*/
+  /*  @DeleteMapping("/{firstName}/{lastName}")
     public ResponseEntity<String> deletePerson(
             @PathVariable("firstName") String firstName,
             @PathVariable("lastName") String lastName) {
@@ -90,5 +90,5 @@ public class PersonController {
         }
 
         return ResponseEntity.notFound().build();
-    }
+    }*/
 }

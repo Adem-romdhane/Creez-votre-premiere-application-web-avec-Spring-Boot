@@ -58,32 +58,7 @@ class FireStationsControllerTest {
     private MockMvc mockMvc;
 
 
-    @Test
-    @Disabled
-     void testUpdateFireStations() throws Exception {
-        // Données de test
-        String address = "123 Main Street";
-        FireStations existingFireStations = new FireStations();
-        existingFireStations.setAddress(address);
-        existingFireStations.setStation(1);
-        FireStations updatedFireStations = new FireStations();
-        updatedFireStations.setAddress(address);
-        updatedFireStations.setStation(2);
-        String requestBody = "{\"address\": \"" + address + "\", \"station\": 2}";
 
-        // Mock du comportement du service
-        when(fireStationsService.findByAddress(address)).thenReturn(existingFireStations);
-
-        // Exécution de la requête
-        mockMvc.perform(MockMvcRequestBuilders.put("/v1/api/firestations/{address}", address)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
-                .andExpect(status().isOk());
-
-        // Vérification du comportement du service
-        verify(fireStationsService, times(1)).findByAddress(address);
-        verify(fireStationsService, times(1)).updateFirestation(updatedFireStations);
-    }
 
     @Test
      void testAddFireStations() {

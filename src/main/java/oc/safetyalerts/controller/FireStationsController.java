@@ -61,18 +61,6 @@ public class FireStationsController {
     }
 
 
-    @PutMapping("{address}")
-    public ResponseEntity<FireStations> updateFireStations(@PathVariable String address, @RequestBody FireStations fireStations) {
-        FireStations fireStationsFinded = fireStationsService.findByAddress(address);
-        if (fireStationsFinded == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        fireStationsFinded.setStation(fireStations.getStation());
-        fireStationsFinded.setAddress(fireStations.getAddress());
-        fireStationsService.updateFirestation(fireStationsFinded);
-        return new ResponseEntity<>(fireStationsFinded, HttpStatus.OK);
-    }
-
 
 
     @DeleteMapping("/{address}")

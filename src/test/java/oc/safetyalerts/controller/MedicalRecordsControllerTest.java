@@ -113,7 +113,7 @@ class MedicalRecordsControllerTest {
         verify(personService, times(1)).getPeopleByAddress(eq(address));
     }
 
-    @Test
+    /*@Test
      void testUpdateMedicalRecords() throws Exception {
         //given
         MedicalRecords savedMedicalRecords = new MedicalRecords();
@@ -137,7 +137,7 @@ class MedicalRecordsControllerTest {
                 .content(objectMapper.writeValueAsString(update)));
 
         response.andExpect(status().isOk());
-    }
+    }*/
 
 
 

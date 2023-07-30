@@ -56,7 +56,7 @@ class PersonControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-
+/*
     @Test
     public void testUpdatePerson() {
         // Données de test
@@ -75,7 +75,7 @@ class PersonControllerTest {
         // Vérification de la réponse
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Personne mise à jour avec succès", response.getBody());
-    }
+    }*/
 
     @Test
      void testAddPerson() {

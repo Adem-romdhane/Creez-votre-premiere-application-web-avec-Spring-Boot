@@ -46,7 +46,7 @@ public class MedicalRecordsController {
         return new ResponseEntity<>(medicalRecordsService.addMedicalRecord(medicalRecords), HttpStatus.OK);
     }
 
-    @PutMapping("{firstName}/{lastName}")
+ /*   @PutMapping("{firstName}/{lastName}")
     public ResponseEntity<MedicalRecords> updateMedicalRecord(
             @PathVariable("lastName") String lastName,
             @PathVariable("firstName") String firstName,
@@ -65,7 +65,7 @@ public class MedicalRecordsController {
         }
 
         return ResponseEntity.notFound().build(); // Retourner une réponse 404 si l'enregistrement médical n'est pas trouvé
-    }
+    }*/
 
 }
 
