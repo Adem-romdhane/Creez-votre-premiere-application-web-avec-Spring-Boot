@@ -41,7 +41,8 @@ public class PersonController {
 
     //http://localhost:8080/v1/api/person/personInfo?firstName=Felicia&lastName=Boyd
     @GetMapping("personInfo")
-    public List<PersonInfoDTO> getByFirstAndLastName(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName){
+    public List<PersonInfoDTO> getByFirstAndLastName(@RequestParam("firstName") String firstName,
+                                                     @RequestParam("lastName") String lastName){
         return personService.findPersonInfoByFirstAndLastName(firstName,lastName);
     }
 

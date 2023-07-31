@@ -72,6 +72,7 @@ public class PersonService {
 
     public List<String> findPhoneByStationNumber(int stationNumber) {
         log.info("Phone founded by station number");
+
         return personRepository.findPhoneByStationNumber(stationNumber);
     }
 

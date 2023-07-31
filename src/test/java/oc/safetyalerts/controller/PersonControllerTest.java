@@ -134,8 +134,10 @@ class PersonControllerTest {
 
         // Résultat attendu
         List<PersonInfoDTO> expectedInfo = Arrays.asList(
-                new PersonInfoDTO("John", "Doe", "123 Main St", "john@example.com", 30, Arrays.asList("Medication1", "Medication2"), Arrays.asList("Allergy1", "Allergy2")),
-                new PersonInfoDTO("John", "Doe", "456 Elm St", "johndoe@example.com", 25, Arrays.asList("Medication3", "Medication4"), Arrays.asList("Allergy3", "Allergy4"))
+                new PersonInfoDTO("John", "Doe", "123 Main St", "john@example.com",
+                        30, Arrays.asList("Medication1", "Medication2"), Arrays.asList("Allergy1", "Allergy2")),
+                new PersonInfoDTO("John", "Doe", "456 Elm St", "johndoe@example.com",
+                        25, Arrays.asList("Medication3", "Medication4"), Arrays.asList("Allergy3", "Allergy4"))
         );
 
         // Mock du service
@@ -158,9 +160,12 @@ class PersonControllerTest {
         // Résultat attendu
         List<ChildAlertDTO> expectedAlerts = Arrays.asList(
                 new ChildAlertDTO("Tenley", "Boyd", 11, Arrays.asList(
-                        new MedicalRecords("John", "Boyd", "03/06/1984", Arrays.asList("aznol:350mg", "hydrapermazol:100mg"), Arrays.asList("nillacilan"))),
-                        new ChildAlertDTO("Jacob", "Boyd", 32, Arrays.asList(
-                                new MedicalRecords("Jacob", "Boyd", "03/06/1989", Arrays.asList("pharmacol:5000mg", "terazine:10mg", "noznazol:250mg"), Arrays.asList())))
+                        new MedicalRecords("John", "Boyd", "03/06/1984",
+                                Arrays.asList("aznol:350mg", "hydrapermazol:100mg"), Arrays.asList("nillacilan"))),
+                        new ChildAlertDTO("Jacob", "Boyd", 32,
+                                Arrays.asList(
+                                new MedicalRecords("Jacob", "Boyd", "03/06/1989",
+                                        Arrays.asList("pharmacol:5000mg", "terazine:10mg", "noznazol:250mg"), Arrays.asList())))
                 ));
 
         // Mock du service
