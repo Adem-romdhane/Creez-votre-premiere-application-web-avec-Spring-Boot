@@ -17,30 +17,23 @@ public class PersonService {
 
     @Autowired
     private final IPersonRepository personRepository;
-
-
     private final PersonStationMapper mapper;
-
-
     public PersonService(IPersonRepository personRepository, PersonStationMapper mapper) {
         this.personRepository = personRepository;
         this.mapper = mapper;
     }
-
-
-
     public List<Person> getAll() {
         log.info("Find all persons");
         return personRepository.findAll();
     }
 
-
     public void deletePerson(Person person) {
+        log.info("delete perso,");
         personRepository.delete(person);
     }
 
-
     public Person updatePerson(Person person) {
+        log.info("update person");
         Person updatePerson = new Person();
         updatePerson.setFirstName(person.getFirstName());
         updatePerson.setLastName(person.getLastName());
@@ -54,7 +47,6 @@ public class PersonService {
 
     }
 
-
     //test Ok
     public List<PersonStationDTO> findByStationNumber(int stationNumber) {
         log.info("Finded by station number");
@@ -65,17 +57,15 @@ public class PersonService {
                 .collect(Collectors.toList());
     }
 
-
     public List<String> getEmailsByCity(String city) {
+        log.info("Find emails by city");
         return personRepository.getEmailsByCity(city);
     }
-
     public List<String> findPhoneByStationNumber(int stationNumber) {
         log.info("Phone founded by station number");
 
         return personRepository.findPhoneByStationNumber(stationNumber);
     }
-
 
     public List<PersonInfoDTO> findPersonInfoByFirstAndLastName(String firstName, String lastName) {
         log.info("Person founded by first & lastname");
@@ -98,6 +88,7 @@ public class PersonService {
     }
 
     public Person addPerson(Person person) {
+        log.info("add a person");
         return personRepository.save(person);
     }
 }
